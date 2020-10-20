@@ -6,7 +6,7 @@ body {
 }
 
 header {
-  height: 50px;
+  height: 80px;
   background-color: palevioletred;
 }
 
@@ -16,5 +16,12 @@ footer {
 }
 
 #content {
+  height: 1008px;
   background-color: gray;
+}
+
+#innerContent {
+  // border: 1px solid;
+  width: 1200px;
+  margin: 0 auto;
 }
