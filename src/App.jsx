@@ -3,6 +3,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { Main, Login, Mypage } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
+import WrapContent from './content.jsx';
 import './style.scss';
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
                 <Link to='/projectDetail' className='nav-link'>프로젝트 조회</Link>
             </header>
             <div id="content">
+                <WrapContent>
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route path="/mypage" component={Mypage} />
@@ -32,6 +34,7 @@ const App = () => {
                     <Route path="/projectDetail" component={ProjectDetail} />
                     <Route exact path="/" component={Main} />
                 </Switch>
+                </WrapContent>
             </div>
             <footer>Footer</footer>
         </>
