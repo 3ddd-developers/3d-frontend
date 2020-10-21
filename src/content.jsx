@@ -1,6 +1,6 @@
 import React from 'react';
 
-const WarpContent = ({children}) => {
+const WrapContent = ({children}) => {
     return (
         <div id="innerContent">
             {children}
@@ -10,4 +10,4 @@ const WarpContent = ({children}) => {
 
 
 
-export default WarpContent;
+export default WrapContent;
