@@ -36,3 +36,33 @@ footer {
   margin-right: 10px;
   float: left;
 }
+
+.form-title {
+  font-weight: bold;
+}
+
+.form-description {
+  font-size: 0.85rem;
+  color: gray;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-required {
+  color: red;
+  width: 13px;
+  height: 13px;
+  vertical-align: top;
+}
+
+.form-button {
+  width: 150px;
+  font-weight: bold;
+}
+
+.form-hr {
+  width: 700px;
+  margin-bottom: 3rem;
+}
