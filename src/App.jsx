@@ -4,6 +4,7 @@ import { Main, Login, Mypage, Test } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
 import WrapContent from './content.jsx';
+import { Container } from 'react-bootstrap';
 import './style.scss';
 
 const App = () => {
@@ -22,22 +23,20 @@ const App = () => {
                 <Link to='/projectCreate' className='nav-link'>프로젝트 생성</Link>
                 <Link to='/projectDetail' className='nav-link'>프로젝트 조회</Link>
             </header>
-            <div id="content">
-                <WrapContent>
-                    <Switch>
-                        <Route path="/login" component={Login} />
-                        <Route path="/authorized" component={Test} />
-                        <Route path="/mypage" component={Mypage} />
-                        <Route path="/studyApply" component={StudyApply} />
-                        <Route path="/studyCreate" component={StudyCreate} />
-                        <Route path="/studyDetail" component={StudyDetail} />
-                        <Route path="/projectApply" component={ProjectApply} />
-                        <Route path="/projectCreate" component={ProjectCreate} />
-                        <Route path="/projectDetail" component={ProjectDetail} />
-                        <Route exact path="/" component={Main} />
-                    </Switch>
-                </WrapContent>
-            </div>
+            <Container style={{ paddingTop: '10%', paddingBottom: '10%' }}>
+                <Switch>
+                    <Route path="/login" component={Login} />
+                    <Route path="/authorized" component={Test} />
+                    <Route path="/mypage" component={Mypage} />
+                    <Route path="/studyApply" component={StudyApply} />
+                    <Route path="/studyCreate" component={StudyCreate} />
+                    <Route path="/studyDetail" component={StudyDetail} />
+                    <Route path="/projectApply" component={ProjectApply} />
+                    <Route path="/projectCreate" component={ProjectCreate} />
+                    <Route path="/projectDetail" component={ProjectDetail} />
+                    <Route exact path="/" component={Main} />
+                </Switch>
+            </Container>
             <footer>Footer</footer>
         </>
     );
