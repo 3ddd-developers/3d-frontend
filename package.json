@@ -30,7 +30,9 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.3",
+    "qs": "^6.9.4",
     "react-bootstrap": "^1.4.0",
+    "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0"
   }
 }

@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 $fontColor: pink;
 $fontSize: 52px;
 
@@ -15,21 +17,22 @@ footer {
   background-color: yellow;
 }
 
-#content {
-  background-color: gray;
-}
+// #content {
+//   background-color: gray;
+// }
 
-#content {
-  height: 1008px;
-  background-color: gray;
-}
+// #content {
+//   height: 1008px;
+//   background-color: gray;
+// }
 
-#innerContent {
-  width: 1200px;
-  margin: 0 auto;
-  border: 1px solid;
-}
+// #innerContent {
+//   width: 1200px;
+//   margin: 0 auto;
+//   border: 1px solid;
+// }
 
 .nav-link {
   margin-right: 10px;
+  float: left;
 }
