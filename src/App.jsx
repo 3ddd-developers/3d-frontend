@@ -3,16 +3,27 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { Main, Login, Mypage, Test } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
-import WrapContent from './content.jsx';
-import { Container } from 'react-bootstrap';
+import { BsFillPeopleFill } from "react-icons/bs";
+import { Container, Button } from 'react-bootstrap';
 import './style.scss';
 
 const App = () => {
+    const onClickLogo = () => {
+        window.location.href = '/';
+    }
+    const onClickLogin = () => {
+        window.location.href = '/#/login';
+    }
+
     return (
         <>
             <header>
-                {/* 예시 */}
-                <Link to='/' className='nav-link'>메인</Link>
+                <BsFillPeopleFill className='logo' onClick={onClickLogo} />
+                <h1 style={{ display: 'inline-block' }}>3D</h1>
+                <Button className='header-button' onClick={onClickLogin}>로그인</Button>
+            </header>
+            <Container style={{ paddingTop: '7%', paddingBottom: '10%' }}>
+                {/* <Link to='/' className='nav-link'>메인</Link>
                 <Link to='/mypage' className='nav-link'>마이페이지</Link>
                 <Link to='/login' className='nav-link'>로그인</Link>
                 <Link to='/authorized' className='nav-link'>Test</Link>
@@ -21,9 +32,7 @@ const App = () => {
                 <Link to='/studyDetail' className='nav-link'>스터디 조회</Link>
                 <Link to='/projectApply' className='nav-link'>프로젝트 신청</Link>
                 <Link to='/projectCreate' className='nav-link'>프로젝트 생성</Link>
-                <Link to='/projectDetail' className='nav-link'>프로젝트 조회</Link>
-            </header>
-            <Container style={{ paddingTop: '10%', paddingBottom: '10%' }}>
+                <Link to='/projectDetail' className='nav-link'>프로젝트 조회</Link> */}
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route path="/authorized" component={Test} />
