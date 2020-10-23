@@ -1,15 +1,13 @@
 import React from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { CgAsterisk } from "react-icons/cg";
-import { FaAsterisk } from "react-icons/fa";
 
 
 const StudyCreate = () => {
 
     const handleSubmit = () => {
         // TODO
-        // 1. validation
-        // 2. Create API 연동 
+        // Create API 연동 
     }
 
     const onClickCancel = () => {
@@ -66,10 +64,10 @@ const StudyCreate = () => {
                     <Form.Control as="textarea" rows={3} />
                 </Form.Group>
                 <Row style={{ justifyContent: 'center', marginTop: '60px' }}>
-                    <Button type="submit" className="form-button" style={{ backgroundColor: 'pink', borderColor: 'pink' }}>
+                    <Button type="submit" className="form-button" style={{ backgroundColor: '#80AAA6', borderColor: '#80AAA6' }}>
                         생성
   </Button>
-                    <Button variant="secondary" onClick={onClickCancel} style={{ marginLeft: '10px' }} className="form-button">
+                    <Button onClick={onClickCancel} className="form-button" style={{ backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }}>
                         취소
   </Button>
 
