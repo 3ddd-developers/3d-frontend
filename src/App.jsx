@@ -12,6 +12,7 @@ const App = () => {
             <header>
                 {/* 예시 */}
                 <Link to='/' className='nav-link'>메인</Link>
+                {/*<Link to="경로"> : 경로를 나눠주는 역할을 한다.*/}
                 <Link to='/mypage' className='nav-link'>마이페이지</Link>
                 <Link to='/login' className='nav-link'>로그인</Link>
                 <Link to='/studyApply' className='nav-link'>스터디 신청</Link>
@@ -24,6 +25,7 @@ const App = () => {
             <div id="content">
                 <WrapContent>
                 <Switch>
+                    {/*<Route path="경로" component={}> : 해당 경로일 때 보여줄 컴포넌트를 지정한다.*/}
                     <Route path="/login" component={Login} />
                     <Route path="/mypage" component={Mypage} />
                     <Route path="/studyApply" component={StudyApply} />

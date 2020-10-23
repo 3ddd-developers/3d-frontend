@@ -10,6 +10,7 @@ module.exports = {
         path: path.resolve(__dirname + "/dist")
     },
     devServer: {
+        historyApiFallback: true,
         contentBase: path.resolve("./dist"),
         index: "index.html",
         port: 9000
