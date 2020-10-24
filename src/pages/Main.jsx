@@ -57,7 +57,7 @@ const Main = () => {
                             <Card.Text className='description'>
                                 토요일 저녁 강남역 부근에서 리액트 스터디하실 분 구해요~
     </Card.Text>
-                            <Card.Link href="#/projectDetail">자세히 보기 &gt;</Card.Link>
+                            <Card.Link href="#/studyDetail">자세히 보기 &gt;</Card.Link>
                         </Card.Body>
                     </Card>
                 </Col>
