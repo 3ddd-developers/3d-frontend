@@ -154,3 +154,12 @@ footer {
   width: 700px;
   margin-bottom: 3rem;
 }
+
+.form-error {
+  border-color: pink;
+  box-shadow: 0 0 0 0.2rem pink;
+}
+
+.form-text-error {
+  color: red !important;
+}
