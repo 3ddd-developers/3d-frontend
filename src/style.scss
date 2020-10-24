@@ -8,30 +8,118 @@ body {
 }
 
 header {
+  height: 70px;
+  background-color: #80AAA6;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  .header-button {
+    font-weight: bold;
+    background-color: white;
+    color: #80AAA6;
+    border: none;
+    position: absolute;
+    right: 20px;
+    margin-top: 5px;
+  }
+  .header-button:hover {
+    background-color: #D7CDC2;
+  }
+  .header-button:active {
+    background-color: #D7CDC2 !important;
+  }
+  .header-button:focus {
+    background-color: #D7CDC2;
+    border-color: #B5A89B;
+    box-shadow: 0 0 0 0.2rem #B5A89B;
+  }
+}
+
+.logo {
+  width: 50px;
   height: 50px;
-  background-color: palevioletred;
+  float: left;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 footer {
   height: 100px;
-  background-color: yellow;
+  background-color:#D7CDC2;
 }
 
-// #content {
-//   background-color: gray;
-// }
+.main-title {
+  font-weight: bold;
+  color: #B5A89B;
+}
 
-// #content {
-//   height: 1008px;
-//   background-color: gray;
-// }
+.main-button {
+  font-weight: bold;
+  background-color: #80AAA6;
+  border-color: #80AAA6;
+}
 
-// #innerContent {
-//   width: 1200px;
-//   margin: 0 auto;
-//   border: 1px solid;
-// }
+.main-button:hover {
+  background-color: #D7CDC2;
+  border-color: #D7CDC2;
+}
+.main-button:active {
+  background-color: #D7CDC2 !important;
+}
+.main-button:focus {
+  background-color: #D7CDC2;
+  border-color: #B5A89B;
+  box-shadow: 0 0 0 0.2rem #B5A89B;
+}
 
+.main-search::placeholder {
+  color: #80AAA6;
+}
+.main-filter {
+  button {
+    color: #000000;
+    background-color: #ffffff;
+    border-color: #ccc;
+    font-size: 0.8rem;
+  }
+
+  button:hover {
+    color: #000000;
+    background-color: #ffffff;
+    border-color: #ccc;
+  }
+
+  button:focus {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+  }
+
+  button:active {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+  }
+}
+
+.main-card {
+  background-color: #E5EDEF;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.227) 3px 3px 8px 0px;
+  .title {
+    color: #B5A89B;
+    font-weight: bold;
+  }
+  .sub-title {
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .description {
+    font-size: 13px;
+  }
+}
 .nav-link {
   margin-right: 10px;
   float: left;
@@ -65,4 +153,17 @@ footer {
 .form-hr {
   width: 700px;
   margin-bottom: 3rem;
+}
+
+.form-error {
+  border-color: pink;
+  box-shadow: 0 0 0 0.2rem pink;
+}
+
+.form-text-error {
+  color: red !important;
+}
+
+.modal-title {
+  font-weight: bold;
 }
