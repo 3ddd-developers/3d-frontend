@@ -31,6 +31,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "classnames": "^2.2.6",
     "qs": "^6.9.4",
     "react-bootstrap": "^1.4.0",
     "react-icons": "^3.11.0",
