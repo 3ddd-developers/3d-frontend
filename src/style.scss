@@ -1,10 +1,14 @@
 @import "~bootstrap/scss/bootstrap";
 
-$fontColor: pink;
-$fontSize: 52px;
+@font-face {
+  font-family: 'NotoSansCJKkr';
+  src: url('../public/assets/fonts/NotoSansKR-Regular.otf');
+  font-weight: 500;
+}
 
 body {
   margin: 0;
+  font-family: 'NotoSansCJKkr';
 }
 
 header {
