@@ -13,7 +13,28 @@ module.exports = {
         historyApiFallback: true,
         contentBase: path.resolve("./dist"),
         index: "index.html",
-        port: 9000
+        port: 9000,
+        https: true,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Accept": "application/json"
+        },
+        proxy: {
+            '/api/github': {
+                target: 'https://api.github.com',
+                pathRewrite: { '^/api/github/': '/' },
+                secure: false,
+                changeOrigin: true
+            },
+            '/github': {
+                target: 'https://github.com',
+                pathRewrite: { '^/github/': '/' },
+                secure: false,
+                changeOrigin: true
+            }
+        }
     },
     mode: "development",
     module: {
@@ -46,7 +67,8 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebPackPlugin({
             template: './public/index.html',
-            filename: 'index.html'
+            filename: 'index.html',
+            favicon: './public/people-fill.svg'
         }),
         new MiniCssExtractPlugin({
             filename: 'style.css'
