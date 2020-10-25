@@ -3,16 +3,14 @@ import { Button, Row, Container, Col } from 'react-bootstrap';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
 
-const Login = ({ history, location }) => {
+const Login = () => {
     const onGoogleClick = () => {
         // TODO: 소셜 계정 연동
         console.log('google login');
     }
 
     const onGitHubClick = () => {
-        // TODO: 소셜 계정 연동
-        console.log('github login');
-        window.location.href = 'https://github.com/login/oauth/authorize?client_id=b2d5bcafe57172c77c97&redirect_uri=http://localhost:9000/#/authorized';
+        window.location.href = 'https://github.com/login/oauth/authorize?client_id=b2d5bcafe57172c77c97&redirect_uri=https://localhost:9000';
     }
 
     return (
