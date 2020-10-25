@@ -17,6 +17,7 @@ const Login = () => {
         <>
             <Row style={{ justifyContent: 'center' }}><Button style={{ width: '360px', height: '50px', fontWeight: '500' }} variant="dark" onClick={onGitHubClick}><FaGithub style={{ width: '25px', height: '25px', marginRight: '5px' }} />GitHub 계정으로 로그인</Button></Row>
             <Row style={{ justifyContent: 'center' }}><Button variant="secondary" style={{ width: '360px', height: '50px', fontWeight: '500', marginTop: '5px' }} disabled onClick={onGoogleClick}><FcGoogle style={{ width: '25px', height: '25px', marginRight: '5px' }} />Google 계정으로 로그인</Button></Row>
+
         </>
     );
 };

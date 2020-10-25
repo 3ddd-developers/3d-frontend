@@ -56,6 +56,7 @@ const App = () => {
                         .then(function (response) {
                             // console.log(response);
                             window.localStorage.setItem('at', at);
+                            window.localStorage.setItem('userId', response.data.id);
                             window.localStorage.setItem('userName', response.data.login);
                             setUser(response.data.login);
                         })
