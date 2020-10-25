@@ -31,7 +31,7 @@ const ProjectCreate = () => {
                             <Form.Control required placeholder="ex) 서울 서초" />
                         </Form.Group>
                 <Row>
-                <Col sm={4}>
+                <Col sm={6}>
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">모임 방식<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select">
@@ -41,13 +41,7 @@ const ProjectCreate = () => {
                             </Form.Control>
                         </Form.Group>
                     </Col>
-                    <Col sm={4}>
-                        <Form.Group controlId="title">
-                            <Form.Label className="form-label">팀장<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required placeholder="ex) 김코딩" />
-                        </Form.Group>
-                    </Col>
-                    <Col sm={4}>
+                    <Col sm={6}>
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">모집인원<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select">
