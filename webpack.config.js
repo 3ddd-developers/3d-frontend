@@ -12,7 +12,28 @@ module.exports = {
     devServer: {
         contentBase: path.resolve("./dist"),
         index: "index.html",
-        port: 9000
+        port: 9000,
+        https: true,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Accept": "application/json"
+        },
+        proxy: {
+            '/api/github': {
+                target: 'https://api.github.com',
+                pathRewrite: { '^/api/github/': '/' },
+                secure: false,
+                changeOrigin: true
+            },
+            '/github': {
+                target: 'https://github.com',
+                pathRewrite: { '^/github/': '/' },
+                secure: false,
+                changeOrigin: true
+            }
+        }
     },
     mode: "development",
     module: {
