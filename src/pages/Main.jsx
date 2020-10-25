@@ -74,8 +74,7 @@ const Main = () => {
 
     useEffect(() => {
         if (tab === 'study') {
-            // TODO: study get 서비스 연동
-            // key 값에 post_seq 넣어줘야 함
+            // sample data
             setStudyList([
                 {
                     key: 1,
@@ -102,6 +101,31 @@ const Main = () => {
                     content: '평일 저녁 여의도 근처에서 알고리즘 스터디 하자.'
                 }
             ]);
+
+            // TODO: study get 서비스 연동
+            // offset, limit 추가 
+            return;
+            axios.get('/api/study/post')
+                .then(function (response) {
+                    // console.log(response);
+                    let arr = response.data.res.map(item => {
+                        return {
+                            key: item.post_seq,
+                            title: item.title,
+                            space: item.place_seq,
+                            content: item.content
+                        }
+                    });
+
+                    setStudyList(arr);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+
+
         } else {
             // TODO: project get 서비스 연동
         }
