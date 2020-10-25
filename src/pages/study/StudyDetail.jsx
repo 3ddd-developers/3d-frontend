@@ -12,6 +12,8 @@ const StudyDetail = props => {
 
     // 제목, 상태, 주제, 지역, 모집인원, 내용
     const [title, setTitle] = useState('리액트 스터디 구해요!');
+    const [writer, setWriter] = useState('미리미리');
+    const [created, setCreated] = useState('2020/10/25');
     const [status, setStatus] = useState('모집중');
     const [subject, setSubject] = useState('리액트');
     const [region, setRegion] = useState('경기/판교');
@@ -70,6 +72,14 @@ const StudyDetail = props => {
             .then(function (response) {
                 // console.log(response);
                 // TODO Get study API 연동
+                setTitle(response.title);
+                setWriter(response.writer.name);
+                setCreated(response.created_at);
+                setStatus(response.status_seq);
+                setSubject(response.subject_seq);
+                setRegion(response.place_seq);
+                setNumber(response.member_number);
+                setContent(response.content);
             })
             .catch(function (error) {
                 console.log(error);
@@ -84,16 +94,29 @@ const StudyDetail = props => {
             </Row>
             <hr className="form-hr" />
             <Form style={{ width: '500px', margin: 'auto' }}>
-
                 <Form.Group controlId="title">
                     <Form.Label className="form-label">제목</Form.Label>
                     <Form.Control plaintext readOnly defaultValue={title} />
-
                 </Form.Group>
+                <Row>
+                    <Col>
+                        <Form.Group controlId="writer">
+                            <Form.Label className="form-label">작성자</Form.Label>
+                            <Form.Control plaintext readOnly defaultValue={writer} >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="created">
+                            <Form.Label className="form-label">작성일</Form.Label>
+                            <Form.Control plaintext readOnly defaultValue={created} >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
                 <Form.Group controlId="status">
                     <Form.Label className="form-label">상태</Form.Label>
                     <Form.Control plaintext readOnly defaultValue={status} />
-
                 </Form.Group>
                 <Form.Group controlId="subject">
                     <Form.Label className="form-label">주제</Form.Label>
