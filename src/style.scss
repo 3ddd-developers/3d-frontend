@@ -110,6 +110,11 @@ footer {
 }
 
 .main-card {
+  width: 15rem;
+  height: 15rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
   background-color: #E5EDEF;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.227) 3px 3px 8px 0px;
@@ -123,6 +128,10 @@ footer {
   }
   .description {
     font-size: 13px;
+  }
+  .link {
+    position: absolute;
+    bottom: 20px;
   }
 }
 .nav-link {

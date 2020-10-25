@@ -112,7 +112,7 @@ const App = () => {
                     <Route path="/mypage" component={Mypage} />
                     <Route path="/studyApply" component={StudyApply} />
                     <Route path="/studyCreate" component={StudyCreate} />
-                    <Route path="/studyDetail" component={StudyDetail} />
+                    <Route path="/studyDetail/:id" component={StudyDetail} />
                     <Route path="/projectApply" component={ProjectApply} />
                     <Route path="/projectCreate" component={ProjectCreate} />
                     <Route path="/projectDetail" component={ProjectDetail} />

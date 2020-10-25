@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
 
-const StudyDetail = () => {
+const StudyDetail = props => {
 
     const [show, setShow] = useState(false);
     const [status, setStatus] = useState('모집중');
@@ -19,6 +19,10 @@ const StudyDetail = () => {
         window.location.href = '/';
     }
 
+    useEffect(() => {
+        console.log(props.match.params.id);
+        // TODO Get study API 연동
+    }, []);
     return (
         <>
             <Row style={{ justifyContent: 'center' }}>
