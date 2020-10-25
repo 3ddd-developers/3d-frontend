@@ -27,6 +27,8 @@ const App = () => {
     const [user, setUser] = useState('');
 
     useEffect(() => {
+        if (user === '' && window.localStorage.getItem('userName')) setUser(window.localStorage.getItem('userName'));
+
         if (!window.location.href.includes('code')) return;
 
         const { code } = qs.parse(window.location.search, {
