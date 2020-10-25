@@ -44,6 +44,8 @@ const StudyCreate = () => {
         axios.post('/api/study/post', json)
             .then(function (response) {
                 console.log(response);
+                // TODO: 생성 성공 시 해당 스터디 디테일 페이지로 라우팅
+                window.location.href = `/#/studyDetail/${response.post_seq}`
             })
             .catch(function (error) {
                 console.log(error);
@@ -80,6 +82,8 @@ const StudyCreate = () => {
         setError({ ...error, [evt.target.id]: false });
     }
 
+    const regions = ['서울/강남', '서울/건대', '서울/신촌홍대', '서울/여의도', '경기/판교', '경기/수원', '온라인'];
+
     return (
         <>
             <Row style={{ justifyContent: 'center' }}>
@@ -106,11 +110,7 @@ const StudyCreate = () => {
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">지역<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select" onChange={onChange}>
-                                <option>서울</option>
-                                <option>경기</option>
-                                <option>인천</option>
-                                <option>제주</option>
-                                <option>강원</option>
+                                {regions.map((region, idx) => <option>{region}</option>)}
                             </Form.Control>
                         </Form.Group>
                     </Col>
