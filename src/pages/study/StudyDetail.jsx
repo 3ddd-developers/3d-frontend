@@ -7,9 +7,16 @@ import classNames from 'classnames';
 const StudyDetail = props => {
 
     const [show, setShow] = useState(false);
-    const [status, setStatus] = useState('모집중');
-    const [content, setContent] = useState('');
+    const [applyContent, setApplyContent] = useState('');
     const [error, setError] = useState(false);
+
+    // 제목, 상태, 주제, 지역, 모집인원, 내용
+    const [title, setTitle] = useState('리액트 스터디 구해요!');
+    const [status, setStatus] = useState('모집중');
+    const [subject, setSubject] = useState('리액트');
+    const [region, setRegion] = useState('경기/판교');
+    const [number, setNumber] = useState(5);
+    const [content, setContent] = useState('평일에 리액트 스터디 하실분 구해요!');
 
     const handleClose = () => setShow(false);
     const handleShow = () => {
@@ -20,7 +27,7 @@ const StudyDetail = props => {
     }
 
     const handleApply = () => {
-        if (content.length > 500) {
+        if (applyContent.length > 500) {
             setError(true);
             return;
         }
@@ -28,19 +35,27 @@ const StudyDetail = props => {
         if (error) return;
 
         // TODO API 연동
+        return;
         let json = {
             post_seq: props.match.params.id,
-            apply_userId: 2,
-            content: content
+            apply_userId: window.localStorage.getItem('userId'),
+            content: applyContent
         };
 
-
+        axios.post(`/api/study/apply/${props.match.params.id}`, json)
+            .then(function (response) {
+                // console.log(response);
+                window.location.href = '/#/mypage';
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const onFocus = () => setError(false);
 
     const onChange = evt => {
-        setContent(evt.target.value);
+        setApplyContent(evt.target.value);
     }
 
     const goMain = () => {
@@ -48,8 +63,19 @@ const StudyDetail = props => {
     }
 
     useEffect(() => {
-        console.log(props.match.params.id);
-        // TODO Get study API 연동
+        // console.log(props.match.params.id);
+        return;
+
+        axios.get(`/api/study/post/${props.match.params.id}`)
+            .then(function (response) {
+                // console.log(response);
+                // TODO Get study API 연동
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
     }, []);
     return (
         <>
@@ -61,7 +87,7 @@ const StudyDetail = props => {
 
                 <Form.Group controlId="title">
                     <Form.Label className="form-label">제목</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="앵귤러 스터디 모집해요" />
+                    <Form.Control plaintext readOnly defaultValue={title} />
 
                 </Form.Group>
                 <Form.Group controlId="status">
@@ -71,20 +97,20 @@ const StudyDetail = props => {
                 </Form.Group>
                 <Form.Group controlId="subject">
                     <Form.Label className="form-label">주제</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="앵귤러" />
+                    <Form.Control plaintext readOnly defaultValue={subject} />
                 </Form.Group>
                 <Row>
                     <Col>
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">지역</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue="경기" >
+                            <Form.Control plaintext readOnly defaultValue={region} >
                             </Form.Control>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="number">
                             <Form.Label className="form-label">모집인원</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue="3" >
+                            <Form.Control plaintext readOnly defaultValue={number} >
                             </Form.Control>
                         </Form.Group>
                     </Col>
@@ -92,7 +118,7 @@ const StudyDetail = props => {
 
                 <Form.Group controlId="content">
                     <Form.Label className="form-label">내용</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="평일에 앵귤러 스터디 하실분 구해요!" />
+                    <Form.Control plaintext readOnly defaultValue={content} />
 
                 </Form.Group>
                 <Row style={{ justifyContent: 'center', marginTop: '60px' }}>
@@ -110,7 +136,7 @@ const StudyDetail = props => {
                 <Modal.Header closeButton>
                     <Modal.Title className='modal-title'>스터디 지원</Modal.Title>
                 </Modal.Header>
-                <Modal.Body style={{ fontSize: '13px' }}>[앵귤러 스터디 모집해요] 스터디 관리자에게 전송할 메시지를 입력해 주세요.
+                <Modal.Body style={{ fontSize: '13px' }}>[{title}] 스터디 관리자에게 전송할 메시지를 입력해 주세요.
                 <Form.Group controlId="content" style={{ marginTop: '10px' }}>
                         <Form.Control className={classNames({ 'form-error': error })} as="textarea" aria-describedby="contentHelpBlock" onChange={onChange} onFocus={onFocus} rows={3} />
                         <Form.Text className={classNames({ 'form-text-error': error })} id="contentHelpBlock" muted>
