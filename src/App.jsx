@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Main, Login, Mypage } from './pages';
+import { Main, Login, Mypage, SignUp } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -100,6 +100,7 @@ const App = () => {
                 <Link to='/projectDetail' className='nav-link'>프로젝트 조회</Link> */}
                 <Switch>
                     <Route path="/login" component={Login} />
+                    <Route path="/signup" component={SignUp} />
                     <Route path="/mypage" component={Mypage} />
                     <Route path="/studyApply" component={StudyApply} />
                     <Route path="/studyCreate" component={StudyCreate} />
