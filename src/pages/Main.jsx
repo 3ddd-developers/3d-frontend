@@ -33,6 +33,12 @@ const Main = () => {
     const [tab, setTab] = useState('study');
     const [studyList, setStudyList] = useState([]);
 
+    const onSearch = evt => {
+        if (evt.type === 'click' || evt.type === 'keydown' && evt.keyCode === 13) {
+            // TODO 검색 서비스 콜
+        }
+    }
+
     const onClickCreateStudy = () => {
         window.location.href = '/#/studyCreate';
     }
@@ -76,6 +82,9 @@ const Main = () => {
         }
     }, [tab]);
 
+    const regions = ['서울/강남', '서울/건대', '서울/신촌홍대', '서울/여의도', '경기/판교', '경기/수원', '온라인'];
+    const states = ['모집중', '모집완료'];
+
     return (
         <Container style={{ marginTop: '-7%' }}>
             <Row style={{ justifyContent: 'center' }}>
@@ -89,24 +98,18 @@ const Main = () => {
                         <Row style={{ marginTop: '25px', justifyContent: 'center' }}>
                             <InputGroup className="mb-3" style={{ width: '800px', height: '50px' }}>
                                 <InputGroup.Prepend>
-
-                                    <Button variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
+                                    <Button onClick={onSearch} variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
                                 </InputGroup.Prepend>
-                                <FormControl className='main-search' style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
+                                <FormControl className='main-search' onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
                             </InputGroup>
                         </Row>
                         <Row style={{ justifyContent: 'center' }}>
                             <Button className='main-button' onClick={onClickCreateStudy}>스터디 모집</Button>
                             <DropdownButton className='main-filter' id="dropdown-region" title="지역">
-                                <Dropdown.Item>서울</Dropdown.Item>
-                                <Dropdown.Item>경기</Dropdown.Item>
-                                <Dropdown.Item>인천</Dropdown.Item>
-                                <Dropdown.Item>제주</Dropdown.Item>
-                                <Dropdown.Item>강원</Dropdown.Item>
+                                {regions.map((region, idx) => <Dropdown.Item key={idx}>{region}</Dropdown.Item>)}
                             </DropdownButton>
                             <DropdownButton className='main-filter' id="dropdown-status" title="상태">
-                                <Dropdown.Item>모집중</Dropdown.Item>
-                                <Dropdown.Item>모집완료</Dropdown.Item>
+                                {states.map((state, idx) => <Dropdown.Item key={idx}>{state}</Dropdown.Item>)}
                             </DropdownButton>
                         </Row>
                         <hr />
