@@ -57,7 +57,7 @@ const App = () => {
 
                             // 해당 id가 userDB 에 있는 값인지 확인하고 있으면 로그인, 없으면 회원가입 
                             // TODO: user get api 연동 
-                            if (false) {
+                            if (true) {
                                 // userDB 에 있는 id
                                 window.localStorage.setItem('at', at);
                                 window.localStorage.setItem('userId', response.data.id);

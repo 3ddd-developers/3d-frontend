@@ -12,13 +12,29 @@ const StudyDetail = props => {
     const [error, setError] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
+        if (!window.localStorage.getItem('userId')) window.location.href = '/#/login'
+
+        setShow(true);
+    }
 
     const handleApply = () => {
         if (content.length > 500) {
             setError(true);
             return;
         }
+
+        if (error) return;
+
+        // TODO API 연동
+        let json = {
+            post_seq: props.match.params.id,
+            apply_userId: 2,
+            content: content
+        };
+
+
     }
 
     const onFocus = () => setError(false);
