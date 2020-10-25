@@ -18,6 +18,8 @@ const StudyDetail = props => {
     const [number, setNumber] = useState(5);
     const [content, setContent] = useState('평일에 리액트 스터디 하실분 구해요!');
 
+    const [helpMsg, setHelpMsg] = useState('최대 500자 까지 입력할 수 있습니다.');
+
     const handleClose = () => setShow(false);
     const handleShow = () => {
         // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
@@ -27,6 +29,12 @@ const StudyDetail = props => {
     }
 
     const handleApply = () => {
+        if (applyContent.length === 0) {
+            setError(true);
+            setHelpMsg('내용을 입력해 주세요.');
+            return;
+        }
+
         if (applyContent.length > 500) {
             setError(true);
             return;
@@ -55,6 +63,7 @@ const StudyDetail = props => {
     const onFocus = () => setError(false);
 
     const onChange = evt => {
+        if (applyContent.length !== 0 && helpMsg === '내용을 입력해 주세요.') setHelpMsg('최대 500자 까지 입력할 수 있습니다.')
         setApplyContent(evt.target.value);
     }
 
@@ -137,12 +146,14 @@ const StudyDetail = props => {
                     <Modal.Title className='modal-title'>스터디 지원</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ fontSize: '13px' }}>[{title}] 스터디 관리자에게 전송할 메시지를 입력해 주세요.
-                <Form.Group controlId="content" style={{ marginTop: '10px' }}>
+
+                        <Form.Group controlId="content" style={{ marginTop: '10px' }}>
                         <Form.Control required className={classNames({ 'form-error': error })} as="textarea" aria-describedby="contentHelpBlock" onChange={onChange} onFocus={onFocus} rows={3} />
                         <Form.Text className={classNames({ 'form-text-error': error })} id="contentHelpBlock" muted>
-                            최대 500자 까지 입력할 수 있습니다.
-  </Form.Text>
+                            {helpMsg}
+                        </Form.Text>
                     </Form.Group>
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="form-button" style={{ width: '100px', backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }} onClick={handleClose}>
