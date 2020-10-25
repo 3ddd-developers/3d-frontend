@@ -18,18 +18,15 @@ const App = () => {
     return (
         <>
             <header>
-<<<<<<< HEAD
                 {/* 예시 */}
                 <Link to='/' className='nav-link'>메인</Link>
                 {/*<Link to="경로"> : 경로를 나눠주는 역할을 한다.*/}
-=======
                 <BsFillPeopleFill className='logo' onClick={onClickLogo} />
                 <h1 style={{ display: 'inline-block' }}>3D</h1>
                 <Button className='header-button' onClick={onClickLogin}>로그인</Button>
             </header>
             <Container style={{ paddingTop: '7%', paddingBottom: '10%' }}>
                 {/* <Link to='/' className='nav-link'>메인</Link>
->>>>>>> 8d7cf7e996b8a6c41a8b420ef662db9011064229
                 <Link to='/mypage' className='nav-link'>마이페이지</Link>
                 <Link to='/login' className='nav-link'>로그인</Link>
                 <Link to='/authorized' className='nav-link'>Test</Link>
