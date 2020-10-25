@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, DropdownButton, Dropdown, InputGroup, FormControl, Card, Tabs, Tab } from 'react-bootstrap';
 import { BiSearch } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
+import axios from 'axios';
 
 const StudyCard = ({ key, title, space, content }) => {
     const handleClick = () => {
@@ -32,11 +33,35 @@ const StudyCard = ({ key, title, space, content }) => {
 const Main = () => {
     const [tab, setTab] = useState('study');
     const [studyList, setStudyList] = useState([]);
+    const [searchVal, setSearchVal] = useState('');
 
     const onSearch = evt => {
         if (evt.type === 'click' || evt.type === 'keydown' && evt.keyCode === 13) {
             // TODO 검색 서비스 콜
+            // offset, limit 추가해야 함 
+            return;
+            axios.get(`/api/study/post?title=${searchVal}`)
+                .then(function (response) {
+                    // console.log(response);
+                    let arr = response.data.res.map(item => {
+                        return {
+                            key: item.post_seq,
+                            title: item.title,
+                            space: item.place_seq,
+                            content: item.content
+                        }
+                    });
+
+                    setStudyList(arr);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
+    }
+
+    const onChange = evt => {
+        setSearchVal(evt.target.value);
     }
 
     const onClickCreateStudy = () => {
@@ -100,7 +125,7 @@ const Main = () => {
                                 <InputGroup.Prepend>
                                     <Button onClick={onSearch} variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
                                 </InputGroup.Prepend>
-                                <FormControl className='main-search' onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
+                                <FormControl className='main-search' onChange={onChange} onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
                             </InputGroup>
                         </Row>
                         <Row style={{ justifyContent: 'center' }}>
