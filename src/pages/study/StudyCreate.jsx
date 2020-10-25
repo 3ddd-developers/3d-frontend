@@ -12,7 +12,7 @@ const StudyCreate = () => {
     const [number, setNumber] = useState(1);
     const [content, setContent] = useState('');
 
-    const [error, setError] = useState({ title: false, content: false });
+    const [error, setError] = useState({ title: false, content: false, number: false });
 
     const handleSubmit = () => {
         // TODO
@@ -28,6 +28,14 @@ const StudyCreate = () => {
             setError({ ...error, content: true });
             return;
         }
+
+        // number validation 
+        if (number.match(/[^0-9]/g)) {
+            setError({ ...error, number: true });
+            return;
+        }
+
+        return;
 
         // TODO: user_id (github) 연동 조사
         let json = {
@@ -110,20 +118,17 @@ const StudyCreate = () => {
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">지역<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select" onChange={onChange}>
-                                {regions.map((region, idx) => <option>{region}</option>)}
+                                {regions.map((region, idx) => <option key={idx}>{region}</option>)}
                             </Form.Control>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="number">
                             <Form.Label className="form-label">모집인원<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required as="select" onChange={onChange}>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </Form.Control>
+                            <Form.Control required className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChange} aria-describedby="numberHelpBlock" />
+                            <Form.Text className={classNames({ 'form-text-error': error.number })} id="numberHelpBlock" muted>
+                                숫자만 입력할 수 있습니다.
+  </Form.Text>
                         </Form.Group>
                     </Col>
                 </Row>
