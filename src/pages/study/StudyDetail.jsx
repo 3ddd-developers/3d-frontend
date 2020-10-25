@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Modal } from 'react-bootstrap';
 import axios from 'axios';
+import classNames from 'classnames';
 
 
 const StudyDetail = props => {
 
     const [show, setShow] = useState(false);
     const [status, setStatus] = useState('모집중');
+    const [content, setContent] = useState('');
+    const [error, setError] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleApply = () => {
+        if (content.length > 500) {
+            setError(true);
+            return;
+        }
+    }
 
+    const onFocus = () => setError(false);
+
+    const onChange = evt => {
+        setContent(evt.target.value);
     }
 
     const goMain = () => {
@@ -84,8 +96,10 @@ const StudyDetail = props => {
                 </Modal.Header>
                 <Modal.Body style={{ fontSize: '13px' }}>[앵귤러 스터디 모집해요] 스터디 관리자에게 전송할 메시지를 입력해 주세요.
                 <Form.Group controlId="content" style={{ marginTop: '10px' }}>
-                        <Form.Control as="textarea" aria-describedby="contentHelpBlock" rows={3} />
-
+                        <Form.Control className={classNames({ 'form-error': error })} as="textarea" aria-describedby="contentHelpBlock" onChange={onChange} onFocus={onFocus} rows={3} />
+                        <Form.Text className={classNames({ 'form-text-error': error })} id="contentHelpBlock" muted>
+                            최대 500자 까지 입력할 수 있습니다.
+  </Form.Text>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

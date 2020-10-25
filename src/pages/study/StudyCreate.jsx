@@ -131,7 +131,7 @@ const StudyCreate = () => {
                 <Form.Group controlId="content">
                     <Form.Label className="form-label">내용</Form.Label>
                     <Form.Control className={classNames({ 'form-error': error.content })} as="textarea" aria-describedby="contentHelpBlock" rows={3} onChange={onChange} onFocus={onFocus} />
-                    <Form.Text className={classNames({ 'text-text-error': error.content })} id="contentHelpBlock" muted>
+                    <Form.Text className={classNames({ 'form-text-error': error.content })} id="contentHelpBlock" muted>
                         최대 500자 까지 입력할 수 있습니다.
   </Form.Text>
                 </Form.Group>
