@@ -60,6 +60,15 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+            },
+            {
+                test: /\.(png|svg|jpe?g|otf|ttf)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: './assets/[hash].[ext]'
+                    }
+                }
             }
         ]
     },

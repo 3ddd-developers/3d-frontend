@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, DropdownButton, Dropdown, InputGroup, FormControl, Card, Tabs, Tab } from 'react-bootstrap';
 import { BiSearch } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
+import axios from 'axios';
 
 const StudyCard = ({ key, title, space, content }) => {
     const handleClick = () => {
@@ -32,11 +33,35 @@ const StudyCard = ({ key, title, space, content }) => {
 const Main = () => {
     const [tab, setTab] = useState('study');
     const [studyList, setStudyList] = useState([]);
+    const [searchVal, setSearchVal] = useState('');
 
     const onSearch = evt => {
         if (evt.type === 'click' || evt.type === 'keydown' && evt.keyCode === 13) {
             // TODO 검색 서비스 콜
+            // offset, limit 추가해야 함 
+            return;
+            axios.get(`/api/study/post?title=${searchVal}`)
+                .then(function (response) {
+                    // console.log(response);
+                    let arr = response.data.res.map(item => {
+                        return {
+                            key: item.post_seq,
+                            title: item.title,
+                            space: item.place_seq,
+                            content: item.content
+                        }
+                    });
+
+                    setStudyList(arr);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
+    }
+
+    const onChange = evt => {
+        setSearchVal(evt.target.value);
     }
 
     const onClickCreateStudy = () => {
@@ -49,8 +74,7 @@ const Main = () => {
 
     useEffect(() => {
         if (tab === 'study') {
-            // TODO: study get 서비스 연동
-            // key 값에 post_seq 넣어줘야 함
+            // sample data
             setStudyList([
                 {
                     key: 1,
@@ -75,8 +99,57 @@ const Main = () => {
                     title: '알고리즘 스터디 하자!',
                     space: '서울/여의도',
                     content: '평일 저녁 여의도 근처에서 알고리즘 스터디 하자.'
+                },
+                {
+                    key: 5,
+                    title: '리액트 스터디 모집해요!',
+                    space: '서울',
+                    content: '토요일 저녁 강남역 부근에서 리액트 스터디하실 분 구해요~'
+                },
+                {
+                    key: 6,
+                    title: '자바 스터디 모집해요!',
+                    space: '경기/판교',
+                    content: '평일 저녁 판교역에서 자바 스터디하실 분~!'
+                },
+                {
+                    key: 7,
+                    title: '파이썬 스터디 합시다!',
+                    space: '경기/수원',
+                    content: '주말 오전 수원역에서 파이썬 스터디 하실래요?'
+                },
+                {
+                    key: 8,
+                    title: '알고리즘 스터디 하자!',
+                    space: '서울/여의도',
+                    content: '평일 저녁 여의도 근처에서 알고리즘 스터디 하자.'
                 }
             ]);
+
+            // TODO: study get 서비스 연동
+            // offset, limit 추가 
+            return;
+            axios.get('/api/study/post')
+                .then(function (response) {
+                    // console.log(response);
+                    let arr = response.data.res.map(item => {
+                        return {
+                            key: item.post_seq,
+                            title: item.title,
+                            space: item.place_seq,
+                            content: item.content
+                        }
+                    });
+
+                    setStudyList(arr);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+
+
         } else {
             // TODO: project get 서비스 연동
         }
@@ -100,7 +173,7 @@ const Main = () => {
                                 <InputGroup.Prepend>
                                     <Button onClick={onSearch} variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
                                 </InputGroup.Prepend>
-                                <FormControl className='main-search' onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
+                                <FormControl className='main-search' onChange={onChange} onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
                             </InputGroup>
                         </Row>
                         <Row style={{ justifyContent: 'center' }}>
