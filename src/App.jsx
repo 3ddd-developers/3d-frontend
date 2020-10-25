@@ -42,8 +42,7 @@ const App = () => {
                 .then(function (response) {
                     // console.log(response);
                     if (response.data.includes('error')) {
-                        // TODO
-                        // 에러 처리
+                        // TODO: 에러 처리
                         return;
                     }
                     let at = response.data.slice(response.data.indexOf('=') + 1, response.data.indexOf('&'));
@@ -55,10 +54,19 @@ const App = () => {
                     })
                         .then(function (response) {
                             // console.log(response);
-                            window.localStorage.setItem('at', at);
-                            window.localStorage.setItem('userId', response.data.id);
-                            window.localStorage.setItem('userName', response.data.login);
-                            setUser(response.data.login);
+
+                            // 해당 id가 userDB 에 있는 값인지 확인하고 있으면 로그인, 없으면 회원가입 
+                            // TODO: user get api 연동 
+                            if (false) {
+                                // userDB 에 있는 id
+                                window.localStorage.setItem('at', at);
+                                window.localStorage.setItem('userId', response.data.id);
+                                window.localStorage.setItem('userName', response.data.login);
+                                setUser(response.data.login);
+                            } else {
+                                // userDB 에 없는 id
+                                window.location.href = `/#/signUp?id=${response.data.id}&name=${response.data.login}&email=${response.data.email}`;
+                            }
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -100,7 +108,7 @@ const App = () => {
                 <Link to='/projectDetail' className='nav-link'>프로젝트 조회</Link> */}
                 <Switch>
                     <Route path="/login" component={Login} />
-                    <Route path="/signup" component={SignUp} />
+                    <Route path="/signUp" component={SignUp} />
                     <Route path="/mypage" component={Mypage} />
                     <Route path="/studyApply" component={StudyApply} />
                     <Route path="/studyCreate" component={StudyCreate} />
