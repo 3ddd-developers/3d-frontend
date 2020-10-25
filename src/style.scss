@@ -81,28 +81,31 @@ footer {
   color: #80AAA6;
 }
 .main-filter {
+  .dropdown-item {
+    color: #B5A89B !important;
+  }
   button {
-    color: #000000;
+    color: #B5A89B;
     background-color: #ffffff;
     border-color: #ccc;
-    font-size: 0.8rem;
+    margin-left: 10px;
   }
 
   button:hover {
-    color: #000000;
+    color:#B5A89B;
     background-color: #ffffff;
     border-color: #ccc;
   }
 
   button:focus {
-    color: #000000 !important;
+    color: #B5A89B !important;
     background-color: #ffffff !important;
     border-color: #ccc !important;
     box-shadow: none !important;
   }
 
   button:active {
-    color: #000000 !important;
+    color: #B5A89B !important;
     background-color: #ffffff !important;
     border-color: #ccc !important;
     box-shadow: none !important;
@@ -137,6 +140,13 @@ footer {
 .nav-link {
   margin-right: 10px;
   float: left;
+  font-weight: bold;
+  color: #80AAA6 !important;
+}
+
+.nav-link.active {
+  background-color: #D2E2E0 !important;
+  color: #B5A89B !important;
 }
 
 .form-title {
