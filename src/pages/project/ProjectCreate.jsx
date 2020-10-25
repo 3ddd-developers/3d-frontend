@@ -31,18 +31,18 @@ const ProjectCreate = () => {
                             <Form.Control required placeholder="ex) 서울 서초" />
                         </Form.Group>
                 <Row>
-                <Col sm={6}>
-                        <Form.Group controlId="region">
+                <Col sm={4}>
+                        <Form.Group controlId="on-offline">
                             <Form.Label className="form-label">모임 방식<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select">
                                 <option>온라인</option>
                                 <option>오프라인</option>
-                                <option>둘 다</option>
+                                <option>온오프라인 둘 다</option>
                             </Form.Control>
                         </Form.Group>
                     </Col>
-                    <Col sm={6}>
-                        <Form.Group controlId="region">
+                    <Col sm={4}>
+                        <Form.Group controlId="number">
                             <Form.Label className="form-label">모집인원<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select">
                                 <option>1</option>
@@ -51,6 +51,12 @@ const ProjectCreate = () => {
                                 <option>4</option>
                                 <option>5</option>
                             </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col sm={4}>
+                        <Form.Group controlId="skills">
+                            <Form.Label className="form-label">기술 스택<CgAsterisk className="form-required" /></Form.Label>
+                            <Form.Control required placeholder="ex) react.js, java, c#,..." />
                         </Form.Group>
                     </Col>
                 </Row>
