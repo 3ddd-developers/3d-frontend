@@ -33,6 +33,11 @@ header {
     border-color: #B5A89B;
     box-shadow: 0 0 0 0.2rem #B5A89B;
   }
+  .header-user {
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+  }
 }
 
 .logo {
