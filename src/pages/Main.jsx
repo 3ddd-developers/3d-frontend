@@ -95,20 +95,21 @@ const Main = () => {
                                 <FormControl className='main-search' style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
                             </InputGroup>
                         </Row>
-                        <Row>
+                        <Row style={{ justifyContent: 'center' }}>
                             <Button className='main-button' onClick={onClickCreateStudy}>스터디 모집</Button>
                             <DropdownButton className='main-filter' id="dropdown-region" title="지역">
-                                <Dropdown.Item href="#/action-1">서울</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">경기</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">인천</Dropdown.Item>
-                                <Dropdown.Item href="#/action-4">제주</Dropdown.Item>
-                                <Dropdown.Item href="#/action-5">강원</Dropdown.Item>
+                                <Dropdown.Item>서울</Dropdown.Item>
+                                <Dropdown.Item>경기</Dropdown.Item>
+                                <Dropdown.Item>인천</Dropdown.Item>
+                                <Dropdown.Item>제주</Dropdown.Item>
+                                <Dropdown.Item>강원</Dropdown.Item>
                             </DropdownButton>
-                            <DropdownButton className='main-filter' style={{ marginLeft: '10px' }} id="dropdown-status" title="상태">
-                                <Dropdown.Item href="#/action-1">모집중</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">모집완료</Dropdown.Item>
+                            <DropdownButton className='main-filter' id="dropdown-status" title="상태">
+                                <Dropdown.Item>모집중</Dropdown.Item>
+                                <Dropdown.Item>모집완료</Dropdown.Item>
                             </DropdownButton>
                         </Row>
+                        <hr />
                         <Row style={{ marginTop: '30px' }}>
                             {studyList.map(study => StudyCard(study))}
                         </Row>
