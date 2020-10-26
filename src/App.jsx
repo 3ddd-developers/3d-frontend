@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Main, Login, Mypage, SignUp } from './pages';
+import { Main, Login, Mypage, SignUp, Error } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -117,6 +117,7 @@ const App = () => {
                     <Route path="/projectCreate" component={ProjectCreate} />
                     <Route path="/projectDetail" component={ProjectDetail} />
                     <Route exact path="/" component={Main} />
+                    <Route component={Error} />
                 </Switch>
             </Container>
             <footer>Footer</footer>
