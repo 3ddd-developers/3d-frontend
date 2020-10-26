@@ -63,6 +63,7 @@ footer {
 }
 
 .main-button {
+  height: 38px;
   font-weight: bold;
   background-color: #80AAA6;
   border-color: #80AAA6;
@@ -79,6 +80,10 @@ footer {
   background-color: #D7CDC2;
   border-color: #B5A89B;
   box-shadow: 0 0 0 0.2rem #B5A89B;
+}
+
+.main-search {
+  width: 750px;
 }
 
 .main-search::placeholder {
@@ -204,4 +209,17 @@ footer {
 .page-item.active .page-link {
   background-color: #80AAA6;
   border-color: #80AAA6;
+}
+
+.main-select {
+  margin-left: 10px;
+  width: 150px;
+  color: #B5A89B;
+  cursor: pointer;
+}
+
+.main-select:focus {
+  color: #B5A89B;
+  border-color: #B5A89B;
+  box-shadow: 0 0 0 0.2rem #E5EDEF;
 }
