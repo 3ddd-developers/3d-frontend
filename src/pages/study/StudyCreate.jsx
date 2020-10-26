@@ -12,7 +12,7 @@ const StudyCreate = () => {
     const [number, setNumber] = useState(1);
     const [content, setContent] = useState('');
 
-    const [error, setError] = useState({ title: false, content: false });
+    const [error, setError] = useState({ title: false, content: false, number: false });
 
     const handleSubmit = () => {
         // TODO
@@ -29,6 +29,14 @@ const StudyCreate = () => {
             return;
         }
 
+        // number validation 
+        if (number.match(/[^0-9]/g)) {
+            setError({ ...error, number: true });
+            return;
+        }
+
+        return;
+
         // TODO: user_id (github) 연동 조사
         let json = {
             user_id: 123,
@@ -44,6 +52,8 @@ const StudyCreate = () => {
         axios.post('/api/study/post', json)
             .then(function (response) {
                 console.log(response);
+                // TODO: 생성 성공 시 해당 스터디 디테일 페이지로 라우팅
+                window.location.href = `/#/studyDetail/${response.post_seq}`
             })
             .catch(function (error) {
                 console.log(error);
@@ -80,6 +90,8 @@ const StudyCreate = () => {
         setError({ ...error, [evt.target.id]: false });
     }
 
+    const regions = ['서울/강남', '서울/건대', '서울/신촌홍대', '서울/여의도', '경기/판교', '경기/수원', '온라인'];
+
     return (
         <>
             <Row style={{ justifyContent: 'center' }}>
@@ -106,32 +118,25 @@ const StudyCreate = () => {
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">지역<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select" onChange={onChange}>
-                                <option>서울</option>
-                                <option>경기</option>
-                                <option>인천</option>
-                                <option>제주</option>
-                                <option>강원</option>
+                                {regions.map((region, idx) => <option key={idx}>{region}</option>)}
                             </Form.Control>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="number">
                             <Form.Label className="form-label">모집인원<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required as="select" onChange={onChange}>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </Form.Control>
+                            <Form.Control required className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChange} aria-describedby="numberHelpBlock" />
+                            <Form.Text className={classNames({ 'form-text-error': error.number })} id="numberHelpBlock" muted>
+                                숫자만 입력할 수 있습니다.
+  </Form.Text>
                         </Form.Group>
                     </Col>
                 </Row>
 
                 <Form.Group controlId="content">
-                    <Form.Label className="form-label">내용</Form.Label>
-                    <Form.Control className={classNames({ 'form-error': error.content })} as="textarea" aria-describedby="contentHelpBlock" rows={3} onChange={onChange} onFocus={onFocus} />
-                    <Form.Text className={classNames({ 'text-text-error': error.content })} id="contentHelpBlock" muted>
+                    <Form.Label className="form-label">내용<CgAsterisk className="form-required" /></Form.Label>
+                    <Form.Control required className={classNames({ 'form-error': error.content })} as="textarea" aria-describedby="contentHelpBlock" rows={3} onChange={onChange} onFocus={onFocus} />
+                    <Form.Text className={classNames({ 'form-text-error': error.content })} id="contentHelpBlock" muted>
                         최대 500자 까지 입력할 수 있습니다.
   </Form.Text>
                 </Form.Group>

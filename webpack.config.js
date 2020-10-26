@@ -60,6 +60,15 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+            },
+            {
+                test: /\.(png|svg|jpe?g|otf|ttf)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: './assets/[hash].[ext]'
+                    }
+                }
             }
         ]
     },
@@ -68,7 +77,7 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: './public/index.html',
             filename: 'index.html',
-            favicon: './public/people-fill.svg'
+            favicon: './public/favicon.svg'
         }),
         new MiniCssExtractPlugin({
             filename: 'style.css'

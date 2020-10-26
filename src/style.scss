@@ -1,10 +1,14 @@
 @import "~bootstrap/scss/bootstrap";
 
-$fontColor: pink;
-$fontSize: 52px;
+@font-face {
+  font-family: 'NotoSansCJKkr';
+  src: url('../public/assets/fonts/NotoSansKR-Regular.otf');
+  font-weight: 500;
+}
 
 body {
   margin: 0;
+  font-family: 'NotoSansCJKkr';
 }
 
 header {
@@ -14,13 +18,13 @@ header {
   font-weight: bold;
   padding: 10px;
   .header-button {
+    width: 80px;
     font-weight: bold;
     background-color: white;
     color: #80AAA6;
     border: none;
     position: absolute;
     right: 20px;
-    margin-top: 5px;
   }
   .header-button:hover {
     background-color: #D7CDC2;
@@ -38,14 +42,24 @@ header {
     position: absolute;
     right: 20px;
   }
+
+  .menu {
+    margin-left: 30px;
+    cursor: pointer;
+  }
 }
 
 .logo {
   width: 50px;
   height: 50px;
   float: left;
+  margin-left: 10px;
   margin-right: 10px;
   cursor: pointer;
+}
+
+.account-button:focus {
+  box-shadow: none !important;
 }
 
 footer {
@@ -59,6 +73,7 @@ footer {
 }
 
 .main-button {
+  height: 38px;
   font-weight: bold;
   background-color: #80AAA6;
   border-color: #80AAA6;
@@ -77,32 +92,39 @@ footer {
   box-shadow: 0 0 0 0.2rem #B5A89B;
 }
 
+.main-search {
+  width: 750px;
+}
+
 .main-search::placeholder {
   color: #80AAA6;
 }
 .main-filter {
+  .dropdown-item {
+    color: #B5A89B !important;
+  }
   button {
-    color: #000000;
+    color: #B5A89B;
     background-color: #ffffff;
     border-color: #ccc;
-    font-size: 0.8rem;
+    margin-left: 10px;
   }
 
   button:hover {
-    color: #000000;
+    color:#B5A89B;
     background-color: #ffffff;
     border-color: #ccc;
   }
 
   button:focus {
-    color: #000000 !important;
+    color: #B5A89B !important;
     background-color: #ffffff !important;
     border-color: #ccc !important;
     box-shadow: none !important;
   }
 
   button:active {
-    color: #000000 !important;
+    color: #B5A89B !important;
     background-color: #ffffff !important;
     border-color: #ccc !important;
     box-shadow: none !important;
@@ -137,6 +159,13 @@ footer {
 .nav-link {
   margin-right: 10px;
   float: left;
+  font-weight: bold;
+  color: #80AAA6 !important;
+}
+
+.nav-link.active {
+  background-color: #D2E2E0 !important;
+  color: #B5A89B !important;
 }
 
 .form-title {
@@ -180,4 +209,27 @@ footer {
 
 .modal-title {
   font-weight: bold;
+}
+
+// pagination
+.page-link {
+  color: #80AAA6;
+}
+
+.page-item.active .page-link {
+  background-color: #80AAA6;
+  border-color: #80AAA6;
+}
+
+.main-select {
+  margin-left: 10px;
+  width: 150px;
+  color: #B5A89B;
+  cursor: pointer;
+}
+
+.main-select:focus {
+  color: #B5A89B;
+  border-color: #B5A89B;
+  box-shadow: 0 0 0 0.2rem #E5EDEF;
 }
