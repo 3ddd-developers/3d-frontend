@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, DropdownButton, Dropdown, InputGroup, FormControl, Card, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Button, DropdownButton, Dropdown, InputGroup, FormControl, Card, Tabs, Tab, Pagination } from 'react-bootstrap';
 import { BiSearch } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 import axios from 'axios';
@@ -34,6 +34,19 @@ const Main = () => {
     const [tab, setTab] = useState('study');
     const [studyList, setStudyList] = useState([]);
     const [searchVal, setSearchVal] = useState('');
+
+    const [offset, setOffset] = useState(0);
+    const [active, setActive] = useState(1);
+
+    // pagination
+    let pages = [];
+    for (let number = 1; number <= 5; number++) {
+        pages.push(
+            <Pagination.Item key={number} active={number === active} onClick={() => setActive(number)}>
+                {number}
+            </Pagination.Item>,
+        );
+    }
 
     const onSearch = evt => {
         if (evt.type === 'click' || evt.type === 'keydown' && evt.keyCode === 13) {
@@ -173,7 +186,7 @@ const Main = () => {
             <Row style={{ marginTop: '15px' }}>
                 <Tabs activeKey={tab} id="tab" onSelect={(t) => setTab(t)}>
                     <Tab eventKey="study" title="스터디">
-                        <Row style={{ marginTop: '25px', justifyContent: 'center' }}>
+                        <Row style={{ marginTop: '50px', justifyContent: 'center' }}>
                             <InputGroup className="mb-3" style={{ width: '800px', height: '50px' }}>
                                 <InputGroup.Prepend>
                                     <Button onClick={onSearch} variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
@@ -181,7 +194,7 @@ const Main = () => {
                                 <FormControl className='main-search' onChange={onChange} onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
                             </InputGroup>
                         </Row>
-                        <Row style={{ justifyContent: 'center' }}>
+                        <Row style={{ justifyContent: 'center', marginTop: '30px' }}>
                             <Button className='main-button' onClick={onClickCreateStudy}>스터디 모집</Button>
                             <DropdownButton className='main-filter' id="dropdown-region" title="지역">
                                 {regions.map((region, idx) => <Dropdown.Item key={idx}>{region}</Dropdown.Item>)}
@@ -190,9 +203,12 @@ const Main = () => {
                                 {states.map((state, idx) => <Dropdown.Item key={idx}>{state}</Dropdown.Item>)}
                             </DropdownButton>
                         </Row>
-                        <hr />
-                        <Row style={{ marginTop: '30px' }}>
+                        <hr style={{ marginTop: '50px' }} />
+                        <Row style={{ marginTop: '50px' }}>
                             {studyList.map(study => StudyCard(study))}
+                        </Row>
+                        <Row style={{ justifyContent: 'center', marginTop: '100px' }}>
+                            <Pagination>{pages}</Pagination>
                         </Row>
                     </Tab>
                     <Tab eventKey="project" title="프로젝트">
