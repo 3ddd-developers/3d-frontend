@@ -65,6 +65,11 @@ const Main = () => {
     }
 
     const onClickCreateStudy = () => {
+        // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
+        if (!window.localStorage.getItem('userId')) {
+            window.location.href = '/#/login';
+            return;
+        }
         window.location.href = '/#/studyCreate';
     }
 
