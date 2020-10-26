@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Main, Login, Mypage, SignUp, Error } from './pages';
+import { Main, Login, Mypage, SignUp, Error, CommingSoon } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -94,8 +94,21 @@ const App = () => {
     const onClickLogo = () => {
         window.location.href = '/';
     }
+
     const onClickLogin = () => {
         window.location.href = '/#/login';
+    }
+
+    const onClickIntro = () => {
+        window.location.href = '/#/intro';
+    }
+
+    const onClickNotice = () => {
+        window.location.href = '/#/notice';
+    }
+
+    const onClickQuestion = () => {
+        window.location.href = '/#/question';
     }
 
     return (
@@ -104,9 +117,9 @@ const App = () => {
                 <BsFillPeopleFill className='logo' onClick={onClickLogo} />
                 <h1 style={{ display: 'inline-block', fontWeight: 'bold', marginBottom: '6px', cursor: 'pointer' }} onClick={onClickLogo}>3D</h1>
                 <span className="menu" style={{ marginLeft: '50px' }} onClick={onClickLogo}>홈</span>
-                <span className="menu">소개</span>
-                <span className="menu">공지사항</span>
-                <span className="menu">문의하기</span>
+                <span className="menu" onClick={onClickIntro}>소개</span>
+                <span className="menu" onClick={onClickNotice}>공지사항</span>
+                <span className="menu" onClick={onClickQuestion}>문의하기</span>
                 {window.localStorage.getItem('userName') ? <UserInfo userName={user} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
             </header>
             <Container style={{ paddingTop: '7%', paddingBottom: '10%' }}>
@@ -120,6 +133,9 @@ const App = () => {
                     <Route path="/projectApply" component={ProjectApply} />
                     <Route path="/projectCreate" component={ProjectCreate} />
                     <Route path="/projectDetail" component={ProjectDetail} />
+                    <Route path="/intro" component={CommingSoon} />
+                    <Route path="/notice" component={CommingSoon} />
+                    <Route path="/question" component={CommingSoon} />
                     <Route exact path="/" component={Main} />
                     <Route component={Error} />
                 </Switch>
