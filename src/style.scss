@@ -52,6 +52,10 @@ header {
   cursor: pointer;
 }
 
+.account-button:focus {
+  box-shadow: none !important;
+}
+
 footer {
   height: 100px;
   background-color:#D7CDC2;

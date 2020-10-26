@@ -4,21 +4,30 @@ import { Main, Login, Mypage, SignUp, Error } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
 import { BsFillPeopleFill } from "react-icons/bs";
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Dropdown } from 'react-bootstrap';
 import { FaUserCircle } from "react-icons/fa";
 import qs from 'qs';
 import axios from 'axios';
 import './style.scss';
 
 const UserInfo = props => {
-    const goMypage = () => {
-        window.location.href = '/#/mypage';
+    const logout = () => {
+        console.log('logout!');
     }
 
     return (
         <div className='header-user' >
-            <FaUserCircle style={{ marginRight: '5px', width: '30px', height: '30px' }} />
-            <span onClick={goMypage} style={{ fontWeight: '500', fontSize: '18px', cursor: 'pointer' }}>{props.userName}</span>
+            <Dropdown>
+                <Dropdown.Toggle className='account-button' style={{ color: '#80AAA6', backgroundColor: '#ffffff', borderColor: '#ffffff' }}>
+                    <FaUserCircle style={{ marginRight: '5px', width: '30px', height: '30px' }} />
+                    {props.userName}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item href="/#/mypage">마이페이지</Dropdown.Item>
+                    <Dropdown.Item onClick={logout}>로그아웃</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         </div>
     )
 }
