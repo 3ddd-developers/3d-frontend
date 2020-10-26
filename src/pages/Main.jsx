@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, DropdownButton, Dropdown, InputGroup, FormControl, Card, Tabs, Tab, Pagination } from 'react-bootstrap';
+import { Container, Row, Col, Button, DropdownButton, Dropdown, InputGroup, Form, FormControl, Card, Tabs, Tab, Pagination } from 'react-bootstrap';
 import { BiSearch } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 import axios from 'axios';
@@ -38,7 +38,13 @@ const Main = () => {
     const [offset, setOffset] = useState(0);
     const [active, setActive] = useState(1);
 
+    const [region, setRegion] = useState('지역');
+    const [state, setState] = useState('상태');
+
     // pagination
+    // TODO
+    // 1. GetList 이후 pages 설정하는 로직 필요함
+    // 2. page num < 1 일 때 1으로 셋팅하는 로직 필요, page num > page num 일 때 page num 으로 셋팅하는 로직 필요 (예외처리)
     let pages = [];
     for (let number = 1; number <= 5; number++) {
         pages.push(
@@ -50,10 +56,12 @@ const Main = () => {
 
     const onSearch = evt => {
         if (evt.type === 'click' || evt.type === 'keydown' && evt.keyCode === 13) {
-            // TODO 검색 서비스 콜
-            // offset, limit 추가해야 함 
+            // TODO 검색 서비스 콜 
+
+            setSearchVal(evt.target.value);
+            setActive(1);
             return;
-            axios.get(`/api/study/post?title=${searchVal}`)
+            axios.get(`/api/study/post?limit=20&offset=1&title=${searchVal}`)
                 .then(function (response) {
                     // console.log(response);
                     let arr = response.data.res.map(item => {
@@ -74,7 +82,49 @@ const Main = () => {
     }
 
     const onChange = evt => {
-        setSearchVal(evt.target.value);
+        switch (evt.target.id) {
+            case 'region':
+
+                setRegion(evt.target.value);
+                setActive(1);
+                break;
+            case 'state':
+
+                setState(evt.target.value);
+                setActive(1);
+                break;
+            default:
+                break;
+        }
+    }
+
+    const getStudyList = () => {
+        let url = `/api/study/post?limit=20&offset=${active}`;
+
+        if (searchVal !== '') url += `?title=${searchVal}`;
+        if (state !== '상태') url += `?status_seq=${state}`
+        if (region !== '지역') url += `?place_seq=${region}`
+
+        // console.log(url);
+        // TODO: API 연동 
+        return;
+        axios.get(url)
+            .then(function (response) {
+                // console.log(response);
+                let arr = response.data.res.map(item => {
+                    return {
+                        key: item.post_seq,
+                        title: item.title,
+                        space: item.place_seq,
+                        content: item.content
+                    }
+                });
+
+                setStudyList(arr);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const onClickCreateStudy = () => {
@@ -89,6 +139,10 @@ const Main = () => {
     const onClickCreateProject = () => {
         window.location.href = '/#/projectCreate';
     }
+
+    useEffect(() => {
+        getStudyList();
+    }, [active, searchVal, region, state]);
 
     useEffect(() => {
         if (tab === 'study') {
@@ -173,8 +227,8 @@ const Main = () => {
         }
     }, [tab]);
 
-    const regions = ['서울/강남', '서울/건대', '서울/신촌홍대', '서울/여의도', '경기/판교', '경기/수원', '온라인'];
-    const states = ['모집중', '모집완료'];
+    const regions = ['지역', '서울/강남', '서울/건대', '서울/신촌홍대', '서울/여의도', '경기/판교', '경기/수원', '온라인'];
+    const states = ['상태', '모집중', '모집완료'];
 
     return (
         <Container style={{ marginTop: '-7%' }}>
@@ -191,17 +245,27 @@ const Main = () => {
                                 <InputGroup.Prepend>
                                     <Button onClick={onSearch} variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
                                 </InputGroup.Prepend>
-                                <FormControl className='main-search' onChange={onChange} onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
+                                <Form.Group style={{ marginBottom: '0' }} controlId='search'>
+                                    <FormControl className='main-search' onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
+                                </Form.Group>
+
                             </InputGroup>
                         </Row>
                         <Row style={{ justifyContent: 'center', marginTop: '30px' }}>
                             <Button className='main-button' onClick={onClickCreateStudy}>스터디 모집</Button>
-                            <DropdownButton className='main-filter' id="dropdown-region" title="지역">
-                                {regions.map((region, idx) => <Dropdown.Item key={idx}>{region}</Dropdown.Item>)}
-                            </DropdownButton>
-                            <DropdownButton className='main-filter' id="dropdown-status" title="상태">
-                                {states.map((state, idx) => <Dropdown.Item key={idx}>{state}</Dropdown.Item>)}
-                            </DropdownButton>
+
+                            <Form.Group controlId='region'>
+                                <FormControl className='main-select' as="select" onChange={onChange}>
+                                    {regions.map((region, idx) => <option key={idx}>{region}</option>)}
+                                </FormControl>
+                            </Form.Group>
+                            <Form.Group controlId='state'>
+                                <FormControl className='main-select' as="select" onChange={onChange}>
+                                    {states.map((state, idx) => <option key={idx}>{state}</option>)}
+                                </FormControl>
+                            </Form.Group>
+
+
                         </Row>
                         <hr style={{ marginTop: '50px' }} />
                         <Row style={{ marginTop: '50px' }}>
