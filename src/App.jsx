@@ -102,7 +102,11 @@ const App = () => {
         <>
             <header style={{ display: 'flex', alignItems: 'center' }}>
                 <BsFillPeopleFill className='logo' onClick={onClickLogo} />
-                <h1 style={{ display: 'inline-block' }}>3D</h1>
+                <h1 style={{ display: 'inline-block', fontWeight: 'bold', marginBottom: '6px', cursor: 'pointer' }} onClick={onClickLogo}>3D</h1>
+                <span className="menu" style={{ marginLeft: '50px' }} onClick={onClickLogo}>홈</span>
+                <span className="menu">소개</span>
+                <span className="menu">공지사항</span>
+                <span className="menu">문의하기</span>
                 {window.localStorage.getItem('userName') ? <UserInfo userName={user} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
             </header>
             <Container style={{ paddingTop: '7%', paddingBottom: '10%' }}>
