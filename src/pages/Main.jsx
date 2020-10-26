@@ -208,7 +208,13 @@ const Main = () => {
                             {studyList.map(study => StudyCard(study))}
                         </Row>
                         <Row style={{ justifyContent: 'center', marginTop: '100px' }}>
-                            <Pagination>{pages}</Pagination>
+                            <Pagination>
+                                <Pagination.First onClick={() => setActive(1)} />
+                                <Pagination.Prev onClick={() => setActive(active - 1)} />
+                                {pages}
+                                <Pagination.Next onClick={() => setActive(active + 1)} />
+                                <Pagination.Last onClick={() => setActive(5)} />
+                            </Pagination>
                         </Row>
                     </Tab>
                     <Tab eventKey="project" title="프로젝트">
