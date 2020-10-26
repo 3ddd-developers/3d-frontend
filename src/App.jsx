@@ -12,7 +12,8 @@ import './style.scss';
 
 const UserInfo = props => {
     const logout = () => {
-        console.log('logout!');
+        window.localStorage.clear();
+        window.location.href = '/';
     }
 
     return (

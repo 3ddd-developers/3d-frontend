@@ -18,13 +18,13 @@ header {
   font-weight: bold;
   padding: 10px;
   .header-button {
+    width: 80px;
     font-weight: bold;
     background-color: white;
     color: #80AAA6;
     border: none;
     position: absolute;
     right: 20px;
-    margin-top: 5px;
   }
   .header-button:hover {
     background-color: #D7CDC2;
