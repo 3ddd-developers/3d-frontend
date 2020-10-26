@@ -63,8 +63,13 @@ header {
 }
 
 footer {
-  height: 100px;
+  height: 150px;
   background-color:#D7CDC2;
+  span {
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 }
 
 .main-title {

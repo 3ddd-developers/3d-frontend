@@ -4,7 +4,7 @@ import { Main, Login, Mypage, SignUp, Error, CommingSoon } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
 import { BsFillPeopleFill } from "react-icons/bs";
-import { Container, Button, Dropdown } from 'react-bootstrap';
+import { Container, Button, Dropdown, Row } from 'react-bootstrap';
 import { FaUserCircle } from "react-icons/fa";
 import qs from 'qs';
 import axios from 'axios';
@@ -111,6 +111,14 @@ const App = () => {
         window.location.href = '/#/question';
     }
 
+    const onClickPrivacy = () => {
+        window.location.href = '/#/privacy';
+    }
+
+    const onClickTerm = () => {
+        window.location.href = '/#/term';
+    }
+
     return (
         <>
             <header style={{ display: 'flex', alignItems: 'center' }}>
@@ -122,7 +130,7 @@ const App = () => {
                 <span className="menu" onClick={onClickQuestion}>문의하기</span>
                 {window.localStorage.getItem('userName') ? <UserInfo userName={user} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
             </header>
-            <Container style={{ paddingTop: '7%', paddingBottom: '10%' }}>
+            <Container style={{ paddingTop: '7%', paddingBottom: '7%' }}>
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route path="/signUp" component={SignUp} />
@@ -136,11 +144,25 @@ const App = () => {
                     <Route path="/intro" component={CommingSoon} />
                     <Route path="/notice" component={CommingSoon} />
                     <Route path="/question" component={CommingSoon} />
+                    <Route path="/term" component={CommingSoon} />
+                    <Route path="/privacy" component={CommingSoon} />
                     <Route exact path="/" component={Main} />
                     <Route component={Error} />
                 </Switch>
             </Container>
-            <footer>Footer</footer>
+            <footer style={{ padding: '30px' }}>
+                <Row style={{ color: 'white', fontWeight: 'bold', justifyContent: 'center' }}>
+                    <BsFillPeopleFill style={{ width: '24px', height: '24px', marginRight: '5px' }} />
+                    <span>3D, 개발자를 위한 팀 매칭 서비스</span>
+                </Row>
+                <Row style={{ marginTop: '10px', color: 'white', fontSize: '13px', justifyContent: 'center' }}>
+                    <span onClick={onClickIntro}>소개</span> |
+                    <span onClick={onClickNotice}>공지사항</span> |
+                    <span onClick={onClickQuestion}>문의하기</span> |
+                    <span onClick={onClickPrivacy}>개인정보처리방침</span> |
+                    <span onClick={onClickTerm}>이용약관</span>
+                </Row>
+            </footer>
         </>
     );
 };
