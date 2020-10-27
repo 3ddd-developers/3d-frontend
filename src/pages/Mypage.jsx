@@ -43,12 +43,39 @@ const Mypage = () => {
         }
     }
 
+    const onClickStudy = evt => {
+        // console.log(evt.target.id);
+        // TODO: API 연동 
+        // 모집 현황 및 지원 현황 모두 스터디 디테일 페이지로 라우팅 해주면 됨 
+        window.location.href = `/#/studyDetail/${evt.target.id}`;
+    }
+
     useEffect(() => {
         if (!window.localStorage.getItem('userId')) {
             window.location.href = '/#/login';
             return;
         }
     }, []);
+
+    // sample
+    const studyList = [
+        {
+            key: 1,
+            title: '리액트 스터디 모집해요!',
+            state: '모집중',
+            status: '2 / 4'
+        }, {
+            key: 2,
+            title: '알고리즘 공부 하실분',
+            state: '모집중',
+            status: '1 / 3'
+        }, {
+            key: 3,
+            title: '**자바 스터디 모집**',
+            state: '모집완료',
+            status: '3 / 3'
+        },
+    ]
 
     return (
         <>
@@ -102,17 +129,8 @@ const Mypage = () => {
                                     <th>현황</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>리액트 스터디 모집해요!</td>
-                                    <td>모집중</td>
-                                    <td>2 / 4</td>
-                                </tr>
-                                <tr>
-                                    <td>알고리즘 스터디 해요~</td>
-                                    <td>모집완료</td>
-                                    <td>3 / 3</td>
-                                </tr>
+                            <tbody onClick={onClickStudy}>
+                                {studyList.map(study => <tr style={{ cursor: 'pointer' }} key={study.key}><td id={study.key}>{study.title}</td><td>{study.state}</td><td>{study.status}</td></tr>)}
                             </tbody>
                         </Table>
                     </Row>
@@ -126,17 +144,8 @@ const Mypage = () => {
                                     <th>현황</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>리액트 스터디 모집해요!</td>
-                                    <td>대기중</td>
-                                    <td>2 / 4</td>
-                                </tr>
-                                <tr>
-                                    <td>알고리즘 스터디 해요~</td>
-                                    <td>거절됨</td>
-                                    <td>3 / 3</td>
-                                </tr>
+                            <tbody onClick={onClickStudy}>
+                                {studyList.map(study => <tr style={{ cursor: 'pointer' }} key={study.key}><td id={study.key}>{study.title}</td><td>{study.state}</td><td>{study.status}</td></tr>)}
                             </tbody>
                         </Table>
                     </Row>
