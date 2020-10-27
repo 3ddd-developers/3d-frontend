@@ -107,6 +107,10 @@ const App = () => {
         window.location.href = '/#/notice';
     }
 
+    const onClickCommunity = () => {
+        window.location.href = '/#/community';
+    }
+
     const onClickQuestion = () => {
         window.location.href = '/#/question';
     }
@@ -127,6 +131,7 @@ const App = () => {
                 <span className="menu" style={{ marginLeft: '50px' }} onClick={onClickLogo}>홈</span>
                 <span className="menu" onClick={onClickIntro}>소개</span>
                 <span className="menu" onClick={onClickNotice}>공지사항</span>
+                <span className="menu" onClick={onClickCommunity}>커뮤니티</span>
                 <span className="menu" onClick={onClickQuestion}>문의하기</span>
                 {window.localStorage.getItem('userName') ? <UserInfo userName={user} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
             </header>
@@ -143,6 +148,7 @@ const App = () => {
                     <Route path="/projectDetail" component={ProjectDetail} />
                     <Route path="/intro" component={CommingSoon} />
                     <Route path="/notice" component={CommingSoon} />
+                    <Route path="/community" component={CommingSoon} />
                     <Route path="/question" component={CommingSoon} />
                     <Route path="/term" component={CommingSoon} />
                     <Route path="/privacy" component={CommingSoon} />
