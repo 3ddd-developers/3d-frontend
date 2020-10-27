@@ -58,13 +58,28 @@ header {
   cursor: pointer;
 }
 
-.account-button:focus {
+.gnb-button:focus {
   box-shadow: none !important;
 }
 
 footer {
-  height: 100px;
+  height: 150px;
   background-color:#D7CDC2;
+  span {
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  a {
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: white;
+  }
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 .main-title {
@@ -232,4 +247,53 @@ footer {
   color: #B5A89B;
   border-color: #B5A89B;
   box-shadow: 0 0 0 0.2rem #E5EDEF;
+}
+
+.mypage {
+  width: 500px; 
+  margin: 30px auto 0;
+  .account {
+    justify-content: center;
+    margin-top: 30px;
+  }
+}
+
+.account-button {
+  width: 80px;
+  height: 38px;
+  background-color: #D7CDC2;
+  border-color: #D7CDC2;
+  margin-left: 10px;
+  position: absolute;
+  right: 0px;
+  padding: 0;
+  font-weight: 500;
+}
+
+.account-button:hover {
+  background-color: white;
+  border: 2px solid #D7CDC2;
+  color: #D7CDC2;
+}
+
+.account-button:active {
+  background-color: white;
+  border: 2px solid #D7CDC2;
+  color: #D7CDC2;
+  box-shadow: none;
+}
+
+.account-button:focus {
+  background-color: white;
+  border: 2px solid #D7CDC2;
+  color: #D7CDC2;
+  box-shadow: none;
+}
+
+// 임시
+.account-button:not(:disabled):not(.disabled):active, .account-button:not(:disabled):not(.disabled).active, .show > .account-button.dropdown-toggle {
+  background-color: white;
+  border: 2px solid #D7CDC2;
+  color: #D7CDC2;
+  box-shadow: none;
 }

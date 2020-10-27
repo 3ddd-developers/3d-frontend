@@ -19,10 +19,10 @@ const CommingSoon = () => {
                     <AiTwotoneAlert style={{ display: 'block', width: '300px', height: '300px', color: '#B5A89B' }} />
                 </Row>
                 <Row style={{ justifyContent: 'center' }}>
-                    <span style={{ color: '#80AAA6', fontWeight: 'bold', fontSize: '40px' }}>Oops!</span>
+                    <span style={{ color: '#80AAA6', fontWeight: 'bold', fontSize: '40px' }}>Comming Soon.</span>
                 </Row>
                 <Row style={{ justifyContent: 'center' }}>
-                    <span style={{ color: '#80AAA6', fontWeight: 'bold', fontSize: '20px' }}>Comming Soon.</span>
+                    <span style={{ color: '#80AAA6', fontWeight: 'bold', fontSize: '20px' }}>준비중인 페이지 입니다.</span>
                 </Row>
                 <Row style={{ justifyContent: 'center', marginTop: '30px' }}>
                     <Button onClick={goBack} className="form-button" style={{ backgroundColor: '#80AAA6', borderColor: '#80AAA6' }}>
