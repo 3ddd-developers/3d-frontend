@@ -70,6 +70,16 @@ footer {
     margin-left: 5px;
     margin-right: 5px;
   }
+  a {
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: white;
+  }
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 .main-title {

@@ -166,7 +166,8 @@ const App = () => {
                     <span onClick={onClickNotice}>공지사항</span> |
                     <span onClick={onClickQuestion}>문의하기</span> |
                     <span onClick={onClickPrivacy}>개인정보처리방침</span> |
-                    <span onClick={onClickTerm}>이용약관</span>
+                    <span onClick={onClickTerm}>이용약관</span> |
+                    <a href="mailto:mirijo02233092@gmail.com">Contact</a>
                 </Row>
             </footer>
         </>
