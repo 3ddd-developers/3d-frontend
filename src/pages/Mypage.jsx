@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Tabs, Tab, Table, Form, Button } from 'react-bootstrap';
+import { Row, Col, Tabs, Tab, Table, Form, Button, Badge, Modal } from 'react-bootstrap';
 
 const Mypage = () => {
     const [description, setDescription] = useState('계정 정보를 확인 및 수정할 수 있습니다.');
     const [tab, setTab] = useState('account');
     const [disable, setDisable] = useState({ nickname: true, email: true });
+
+    // Modal
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => {
+        // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
+        setShow(true);
+    }
 
     const onEditNickname = evt => {
         if (disable.nickname) {
@@ -48,6 +57,10 @@ const Mypage = () => {
         // TODO: API 연동 
         // 모집 현황 및 지원 현황 모두 스터디 디테일 페이지로 라우팅 해주면 됨 
         window.location.href = `/#/studyDetail/${evt.target.id}`;
+    }
+
+    const handleCancel = () => {
+        // TODO: 스터디 지원 취소
     }
 
     useEffect(() => {
@@ -144,11 +157,27 @@ const Mypage = () => {
                                     <th>현황</th>
                                 </tr>
                             </thead>
-                            <tbody onClick={onClickStudy}>
-                                {studyList.map(study => <tr style={{ cursor: 'pointer' }} key={study.key}><td id={study.key}>{study.title}</td><td>{study.state}</td><td>{study.status}</td></tr>)}
+                            <tbody>
+                                {studyList.map(study => <tr key={study.key}><td id={study.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="danger" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShow}>취소하기</Badge>}</td><td>{study.status}</td></tr>)}
                             </tbody>
                         </Table>
                     </Row>
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title className='modal-title'>스터디 지원 취소</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ fontSize: '13px' }}>스터디 지원을 취소하시겠습니까?
+                </Modal.Body>
+                        <Modal.Footer>
+
+                            <Button className="form-button" style={{ width: '100px', backgroundColor: '#80AAA6', borderColor: '#80AAA6' }} onClick={handleCancel}>
+                                네
+          </Button>
+                            <Button className="form-button" style={{ width: '100px', backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }} onClick={handleClose}>
+                                아니오
+          </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </Tab>
                 <Tab eventKey="project" title="프로젝트">
                     {/* TODO */}
