@@ -1,18 +1,135 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { CgAsterisk } from "react-icons/cg";
-import { FaAsterisk } from "react-icons/fa";
+import axios from 'axios';
+import classNames from 'classnames';
+
 
 const ProjectCreate = () => {
+    const [title, setTitle] = useState('');
+    const [subject, setSubject] = useState('');
+    const [region, setRegion] = useState('');
+    const [memTotalCapa, setTotalNumber] = useState('');
+    const [number, setNumber] = useState({ 기획: 0, 디자인: 0, FE: 0, BE: 0 });
+    const [content, setContent] = useState('');
+    const [onoffline, setOnOffline] = useState('');
+
+    //모집 인원(셀렉 박스로 수정)-> 기획, FE, BE, 디자인
+
+    const onOfflines = ['오프라인', '온라인', '온오프 둘 다'];
+    // const number = { 기획: 0, 디자인: 0, FE: 0, BE: 0 };
+
+    const [error, setError] = useState({ title: false, content: false, feNumber: false });
+
     const handleSubmit = () => {
         // TODO
-        // 1. validation
-        // 2. Create API 연동 
+        // Create API 연동 
+        if (title.length > 100) {
+            // TODO: 에러 메시지 노출
+            setError({ ...error, title: true });
+            return;
+        }
+
+        if (content.length > 500) {
+            // TODO: 에러 메시지 노출
+            setError({ ...error, content: true });
+            return;
+        }
+
+        // number validation 
+        if (feNumber.match(/[^0-9]/g)) {
+            setError({ ...error, allNumber: true });
+            return;
+        }
+
+        return;
+
+        // TODO: user_id (github) 연동 조사
+        let json = {
+            user_id: 123,
+            title: title,
+            content: content,
+            member_number: number,
+            place_seq: region,
+            subject_seq: subject
+        };
+
+        console.log(json);
+        return;
+        axios.post('/api/study/post', json)
+            .then(function (response) {
+                console.log(response);
+                // TODO: 생성 성공 시 해당 스터디 디테일 페이지로 라우팅
+                window.location.href = `/#/studyDetail/${response.post_seq}`
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const onClickCancel = () => {
         window.location.href = '/';
     }
+
+    const onChange = evt => {
+        switch (evt.target.id) {
+            case 'title':
+                setTitle(evt.target.value);
+                break;
+            case 'memTotalCapa':
+                setTotalNumber(evt.target.value);
+                break;
+            case 'subject':
+                setSubject(evt.target.value);
+                break;
+            case 'on-offline':
+                setOnOffline(evt.target.value);
+                break;
+            case 'region':
+                setRegion(evt.target.value);
+                break;
+            case 'content':
+                setContent(evt.target.value);
+                break;
+            default:
+                break;
+        }
+    }
+
+    // 인원 관련 state
+    const onChangeNum = evt => {
+        switch (evt.target.id) {
+            case '기획':
+                setNumber({
+                    ...number,
+                    [evt.target.id] : evt.target.value
+                });
+                break;
+            case '디자인':
+                setNumber({
+                    ...number,
+                    [evt.target.id] : evt.target.value
+                });
+                break;
+            case 'FE':
+                setNumber({
+                    ...number,
+                    [evt.target.id] : evt.target.value
+                });
+                break;
+            case 'BE':
+                setNumber({
+                    ...number,
+                    [evt.target.id] : evt.target.value
+                });
+                break;
+        }
+    }
+
+    const onFocus = evt => {
+        setError({ ...error, [evt.target.id]: false });
+    }
+
     return (
         <>
             <Row style={{ justifyContent: 'center' }}>
@@ -22,58 +139,87 @@ const ProjectCreate = () => {
             <hr className="form-hr" />
 
             <Form style={{ width: '500px', margin: 'auto' }} onSubmit={handleSubmit} >
-                        <Form.Group controlId="title">
-                            <Form.Label className="form-label">제목<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required placeholder="ex) '우리동네 맛집' 앱 개발 같이 해요!" />
-                        </Form.Group>
-                        <Form.Group controlId="region">
-                            <Form.Label className="form-label">지역<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required placeholder="ex) 서울 서초" />
-                        </Form.Group>
+
+                <Form.Group controlId="title">
+                    <Form.Label className="form-label">제목<CgAsterisk className="form-required" /></Form.Label>
+                    <Form.Control className={classNames({ 'form-error': error.title })} required aria-describedby="titleHelpBlock" placeholder="ex) 음악 플레이리스트 공유앱 만들기" onChange={onChange} onFocus={onFocus} />
+                    <Form.Text className={classNames({ 'form-text-error': error.title })} id="titleHelpBlock" muted>
+                        최대 100자까지 입력할 수 있습니다.
+                    </Form.Text>
+                </Form.Group>
                 <Row>
-                <Col sm={4}>
+                <Col sm={8}>
+                    <Form.Group controlId="region">
+                        <Form.Label className="form-label">지역<CgAsterisk className="form-required" /></Form.Label>
+                        <Form.Control required placeholder="ex) 서울 서초" onChange={onChange} />
+                    </Form.Group>
+                    </Col>
+                    <Col sm={4}>
                         <Form.Group controlId="on-offline">
                             <Form.Label className="form-label">모임 방식<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required as="select">
-                                <option>온라인</option>
-                                <option>오프라인</option>
-                                <option>온오프라인 둘 다</option>
+                            <Form.Control required as="select" onChange={onChange}>
+                                {onOfflines.map((onoffline, idx) => <option key={idx}>{onoffline}</option>)}
                             </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col sm={4}>
-                        <Form.Group controlId="number">
-                            <Form.Label className="form-label">모집인원<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required as="select">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col sm={4}>
-                        <Form.Group controlId="skills">
-                            <Form.Label className="form-label">기술 스택<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control required placeholder="ex) react.js, java, c#,..." />
                         </Form.Group>
                     </Col>
                 </Row>
-                <Form.Group controlId="description">
-                    <Form.Label className="form-label">설명<CgAsterisk className="form-required" /></Form.Label>
-                    <Form.Control required as="textarea" style={{ resize : 'none'}} rows={3} placeholder="ex) 동네 맛집을 공유하는 어플입니다."/>
+                <Form.Group controlId="skills">
+                    <Form.Label className="form-label">기술 스택<CgAsterisk className="form-required" /></Form.Label>
+                    <Form.Control required placeholder="ex) react.js, java, c#,..." onChange={onChange} />
+                </Form.Group>
+                        
+                    <Row>
+                        <Col sm={4}>
+                            <Form.Group controlId="memTotalCapa">
+                            <Form.Label className="form-label">총 모집인원<CgAsterisk className="form-required" /></Form.Label>
+                            <Form.Control className={classNames({ 'form-error': error.allNumber })} required onFocus={onFocus} onChange={onChange} aira-describedby="numberHelpBlock" />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={2}>
+                            <Form.Group controlId="기획">
+                            <Form.Label className="form-label">기획</Form.Label>
+                            <Form.Control className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                            </Form.Group>
+                        </Col> 
+                        <Col sm={2}>  
+                            <Form.Group controlId="디자인">
+                            <Form.Label className="form-label">디자인</Form.Label>
+                            <Form.Control className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={2}>
+                            <Form.Group controlId="FE">
+                            <Form.Label className="form-label">FE</Form.Label>
+                            <Form.Control className={classNames({ 'form-error': error.feNumber })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                            </Form.Group>
+                        </Col> 
+                        <Col sm={2}> 
+                        <Form.Group controlId="BE">
+                            <Form.Label className="form-label">BE</Form.Label>
+                            <Form.Control className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                        </Form.Group>
+                        </Col>
+                    </Row>
+                            <Form.Text className={classNames({ 'form-text-error': error.number })} id="numberHelpBlock" mutex>
+                                빈 칸에는 숫자만 입력할 수 있습니다.
+                            </Form.Text>
+                        
+                   
+                <Form.Group controlId="content">
+                    <Form.Label className="form-label">내용<CgAsterisk className="form-required" /></Form.Label>
+                    <Form.Control required className={classNames({ 'form-error': error.content})} as="textarea" aria-describedby="contentHelpBlock" rows={3} onChange={onChange} onFocus={onFocus} />
+                    <Form.Text className={classNames({ 'form-text-error': error.content })} id="contentHelpBlock" muted>
+                        최대 500자까지 입력할 수 있습니다.
+                    </Form.Text>
                 </Form.Group>
                 <Row style={{ justifyContent: 'center', marginTop: '60px' }}>
-                    <Button type="submit" className="form-button" style={{ backgroundColor: 'pink', borderColor: 'pink' }}>
+                    <Button type="submit" className="form-button" style={{ backgroundColor: '#80AAA6', borderColor: '#80AAA6' }}>
                         생성
                     </Button>
-                    <Button variant="secondary" onClick={onClickCancel} style={{ marginLeft: '10px' }} className="form-button">
+                    <Button variant="secondary" onClick={onClickCancel} style={{ backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }} className="form-button">
                         취소
                     </Button>
-
                 </Row>
-
             </Form>
         </>
     );

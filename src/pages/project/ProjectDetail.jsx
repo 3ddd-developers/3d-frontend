@@ -6,8 +6,7 @@ import axios from 'axios';
 const ProjectDetail = props => {
 
     const [show, setShow] = useState(false);
-    const [status, setStatus] = useState('모집중');
-
+    const [status, setStatus] = useState('FE: 1(0)명, BE: 2(1)명');
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -32,7 +31,7 @@ const ProjectDetail = props => {
             <Form style={{ width: '500px', margin: 'auto' }}>
                 <Form.Group controlId="title">
                     <Form.Label className="form-label">제목</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="'우리동네 맛집' 앱 개발 같이 해요!" />
+                    <Form.Control plaintext readOnly defaultValue="'우리동네 맛집' 앱 개발 프로젝트입니다." />
                 </Form.Group>
                 <Form.Group controlId="number">
                     <Form.Label className="form-label">모집인원</Form.Label>
