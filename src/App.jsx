@@ -19,7 +19,7 @@ const UserInfo = props => {
     return (
         <div className='header-user' >
             <Dropdown>
-                <Dropdown.Toggle className='account-button' style={{ color: '#80AAA6', backgroundColor: '#ffffff', borderColor: '#ffffff' }}>
+                <Dropdown.Toggle className='gnb-button' style={{ color: '#80AAA6', backgroundColor: '#ffffff', borderColor: '#ffffff' }}>
                     <FaUserCircle style={{ marginRight: '5px', width: '30px', height: '30px' }} />
                     {props.userName}
                 </Dropdown.Toggle>
