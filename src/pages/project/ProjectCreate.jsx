@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 const ProjectCreate = () => {
     const [title, setTitle] = useState('');
-    const [subject, setSubject] = useState('');
+    const [skills, setSkills] = useState('');
     const [region, setRegion] = useState('');
     const [memTotalCapa, setTotalNumber] = useState('');
     const [number, setNumber] = useState({ 기획: 0, 디자인: 0, FE: 0, BE: 0 });
@@ -15,13 +15,13 @@ const ProjectCreate = () => {
     const [onoffline, setOnOffline] = useState('');
 
     //모집 인원(셀렉 박스로 수정)-> 기획, FE, BE, 디자인
-
     const onOfflines = ['오프라인', '온라인', '온오프 둘 다'];
-    // const number = { 기획: 0, 디자인: 0, FE: 0, BE: 0 };
 
-    const [error, setError] = useState({ title: false, content: false, feNumber: false });
-
+    const [error, setError] = useState({ title: false, content: false, memTotalCapa: false });
+    console.log(number);
+    console.log(memTotalCapa);
     const handleSubmit = () => {
+
         // TODO
         // Create API 연동 
         if (title.length > 100) {
@@ -37,8 +37,8 @@ const ProjectCreate = () => {
         }
 
         // number validation 
-        if (feNumber.match(/[^0-9]/g)) {
-            setError({ ...error, allNumber: true });
+        if (memTotalCapa.match(/[^0-9]/g)) {
+            setError({ ...error, memTotalCapa: true });
             return;
         }
 
@@ -79,8 +79,8 @@ const ProjectCreate = () => {
             case 'memTotalCapa':
                 setTotalNumber(evt.target.value);
                 break;
-            case 'subject':
-                setSubject(evt.target.value);
+            case 'skills':
+                setSkills(evt.target.value);
                 break;
             case 'on-offline':
                 setOnOffline(evt.target.value);
@@ -96,7 +96,7 @@ const ProjectCreate = () => {
         }
     }
 
-    // 인원 관련 state
+    // 포지션 state
     const onChangeNum = evt => {
         switch (evt.target.id) {
             case '기획':
@@ -138,8 +138,7 @@ const ProjectCreate = () => {
             <Row style={{ justifyContent: 'center' }}><p className="form-description">팀 생성을 위한 정보를 입력해 주세요.</p></Row>
             <hr className="form-hr" />
 
-            <Form style={{ width: '500px', margin: 'auto' }} onSubmit={handleSubmit} >
-
+            <Form style={{ width: '500px', margin: 'auto' }} action="http://localhost:8080/api/sideprj/post" method="post" onSubmit={handleSubmit} >
                 <Form.Group controlId="title">
                     <Form.Label className="form-label">제목<CgAsterisk className="form-required" /></Form.Label>
                     <Form.Control className={classNames({ 'form-error': error.title })} required aria-describedby="titleHelpBlock" placeholder="ex) 음악 플레이리스트 공유앱 만들기" onChange={onChange} onFocus={onFocus} />
@@ -168,43 +167,35 @@ const ProjectCreate = () => {
                     <Form.Control required placeholder="ex) react.js, java, c#,..." onChange={onChange} />
                 </Form.Group>
                         
+                
+                    <Form.Group>
                     <Row>
-                        <Col sm={4}>
-                            <Form.Group controlId="memTotalCapa">
-                            <Form.Label className="form-label">총 모집인원<CgAsterisk className="form-required" /></Form.Label>
-                            <Form.Control className={classNames({ 'form-error': error.allNumber })} required onFocus={onFocus} onChange={onChange} aira-describedby="numberHelpBlock" />
-                            </Form.Group>
-                        </Col>
-                        <Col sm={2}>
-                            <Form.Group controlId="기획">
-                            <Form.Label className="form-label">기획</Form.Label>
-                            <Form.Control className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
-                            </Form.Group>
-                        </Col> 
-                        <Col sm={2}>  
-                            <Form.Group controlId="디자인">
-                            <Form.Label className="form-label">디자인</Form.Label>
-                            <Form.Control className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
-                            </Form.Group>
-                        </Col>
-                        <Col sm={2}>
-                            <Form.Group controlId="FE">
-                            <Form.Label className="form-label">FE</Form.Label>
-                            <Form.Control className={classNames({ 'form-error': error.feNumber })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
-                            </Form.Group>
-                        </Col> 
-                        <Col sm={2}> 
-                        <Form.Group controlId="BE">
-                            <Form.Label className="form-label">BE</Form.Label>
-                            <Form.Control className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
-                        </Form.Group>
-                        </Col>
+                    <Col sm={4}>
+                        <Form.Label className="form-label">총 모집인원<CgAsterisk className="form-required" /></Form.Label>
+                        <Form.Control id="memTotalCapa" className={classNames({ 'form-error': error.number })} required onFocus={onFocus} onChange={onChange} aira-describedby="numberHelpBlock" />
+                    </Col>
+                    <Col sm={2}>
+                        <Form.Label className="form-label">기획</Form.Label>
+                        <Form.Control id="기획" className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                    </Col> 
+                    <Col sm={2}>  
+                        <Form.Label className="form-label">디자인</Form.Label>
+                        <Form.Control id="디자인" className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                    </Col>
+                    <Col sm={2}>
+                        <Form.Label className="form-label">FE</Form.Label>
+                        <Form.Control id="FE" className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                    </Col> 
+                    <Col sm={2}> 
+                        <Form.Label className="form-label">BE</Form.Label>
+                        <Form.Control id="BE" className={classNames({ 'form-error': error.number })} onFocus={onFocus} onChange={onChangeNum} aira-describedby="numberHelpBlock" />
+                    </Col>
                     </Row>
-                            <Form.Text className={classNames({ 'form-text-error': error.number })} id="numberHelpBlock" mutex>
-                                빈 칸에는 숫자만 입력할 수 있습니다.
-                            </Form.Text>
-                        
-                   
+                    </Form.Group>
+                
+                    <Form.Text className={classNames({ 'form-text-error': error.number })} id="numberHelpBlock" muted>
+                        빈 칸에는 숫자만 입력할 수 있습니다.
+                    </Form.Text>
                 <Form.Group controlId="content">
                     <Form.Label className="form-label">내용<CgAsterisk className="form-required" /></Form.Label>
                     <Form.Control required className={classNames({ 'form-error': error.content})} as="textarea" aria-describedby="contentHelpBlock" rows={3} onChange={onChange} onFocus={onFocus} />
