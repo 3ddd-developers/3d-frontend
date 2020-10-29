@@ -6,10 +6,11 @@ Dependencies:
 1. node.js ^12.16.3
 2. yarn ^1.22.4
 
-How to execute:
-1. `yarn install`
-2. `yarn start` 
-3. Access 'https://localhost:9000' through browser.
+How to execute: (Run below commands from root directory)
+1. `git clone https://github.com/3ddd-developers/3d-frontend.git`
+2. `yarn install`
+3. `yarn start` 
+4. Access 'https://localhost:9000' through browser.
 
 How to test Login with GitHub account:
 1. Access 'https://github.com/settings/developers' 
