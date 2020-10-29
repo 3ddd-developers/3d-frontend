@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Row, Container, Col } from 'react-bootstrap';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
+import config from '../../config';
 
 const Login = () => {
     const onGoogleClick = () => {
@@ -10,7 +11,7 @@ const Login = () => {
     }
 
     const onGitHubClick = () => {
-        window.location.href = 'https://github.com/login/oauth/authorize?client_id=b2d5bcafe57172c77c97&redirect_uri=https://localhost:9000';
+        window.location.href = `https://github.com/login/oauth/authorize?client_id=${config.github.client_id}&redirect_uri=https://localhost:9000`;
     }
 
     return (
