@@ -17,4 +17,4 @@ How to test Login with GitHub account
 1. Access 'https://github.com/settings/developers' 
 2. click 'New OAuth App'
 3. Enter 'https://localhost:9000' in Homepage URL, Authorization callback URL section. 
-4. click 'Register application', then copy generated 'Client ID' and 'Client secret', paste them in 'config.js' file in the root directory. 
+4. click 'Register application', then copy generated 'Client ID' and 'Client secret', paste them on line 6, line 7 respectively of 'config.js' file in the root directory. 
