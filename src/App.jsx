@@ -8,6 +8,7 @@ import { Container, Button, Dropdown, Row } from 'react-bootstrap';
 import { FaUserCircle } from "react-icons/fa";
 import qs from 'qs';
 import axios from 'axios';
+import config from '../config';
 import './style.scss';
 
 const UserInfo = props => {
@@ -46,9 +47,9 @@ const App = () => {
         });
 
         if (code) {
-            let client_id = 'b2d5bcafe57172c77c97', client_secret = '75bf0b3a856e6a9756fdffb5579e4bc4a1ca637f';
+            // let client_id = 'b2d5bcafe57172c77c97', client_secret = '75bf0b3a856e6a9756fdffb5579e4bc4a1ca637f';
 
-            axios.get(`/github/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`)
+            axios.get(`/github/login/oauth/access_token?client_id=${config.github.client_id}&client_secret=${config.github.client_secret}&code=${code}`)
                 .then(function (response) {
                     // console.log(response);
                     if (response.data.includes('error')) {
