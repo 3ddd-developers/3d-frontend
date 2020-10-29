@@ -42,25 +42,25 @@ const ProjectCreate = () => {
             return;
         }
 
-        return;
-
         // TODO: user_id (github) 연동 조사
         let json = {
             user_id: 123,
-            title: title,
+            leader: 123,
+            meeting: onoffline,
+            location: region,
             content: content,
-            member_number: number,
-            place_seq: region,
-            subject_seq: subject
+            memTotalCapa: memTotalCapa,
+            title: title,
+            recruitingArea: number
         };
 
         console.log(json);
-        return;
-        axios.post('/api/study/post', json)
+        // 서버로 POST
+        axios.post('https://localhost:8443/api/sideprj/post', json)
             .then(function (response) {
                 console.log(response);
-                // TODO: 생성 성공 시 해당 스터디 디테일 페이지로 라우팅
-                window.location.href = `/#/studyDetail/${response.post_seq}`
+                // TODO: 생성 성공 시 메인 홈페이지로 라우팅
+                window.location.href = `/`;
             })
             .catch(function (error) {
                 console.log(error);
@@ -162,11 +162,6 @@ const ProjectCreate = () => {
                         </Form.Group>
                     </Col>
                 </Row>
-                {/* <Form.Group controlId="skills">
-                    <Form.Label className="form-label">기술 스택<CgAsterisk className="form-required" /></Form.Label>
-                    <Form.Control required placeholder="ex) react.js, java, c#,..." onChange={onChange} />
-                </Form.Group> */}
-                
                     <Form.Group>
                     <Row>
                     <Col sm={4}>
