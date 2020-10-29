@@ -8,11 +8,21 @@ const Mypage = () => {
 
     // Modal
     const [show, setShow] = useState(false);
+    const [showCancelModal, setShowCancelModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => {
+    const handleClose = () => {
+        showCancelModal ? setShowCancelModal(false) : setShowDeleteModal(false)
+    }
+
+    const handleShowCancelModal = () => {
         // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
-        setShow(true);
+        setShowCancelModal(true);
+    }
+
+    const handleShowDeleteModal = () => {
+        // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
+        setShowDeleteModal(true);
     }
 
     const onEditNickname = evt => {
@@ -61,6 +71,10 @@ const Mypage = () => {
 
     const handleCancel = () => {
         // TODO: 스터디 지원 취소
+    }
+
+    const handleDelete = () => {
+        // TODO: 스터디 삭제
     }
 
     useEffect(() => {
@@ -142,8 +156,8 @@ const Mypage = () => {
                                     <th>현황</th>
                                 </tr>
                             </thead>
-                            <tbody onClick={onClickStudy}>
-                                {studyList.map(study => <tr style={{ cursor: 'pointer' }} key={study.key}><td id={study.key}>{study.title}</td><td>{study.state}</td><td>{study.status}</td></tr>)}
+                            <tbody>
+                                {studyList.map(study => <tr style={{ cursor: 'pointer' }} key={study.key}><td id={study.key} onClick={onClickStudy}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="danger" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowDeleteModal}>삭제하기</Badge>}</td><td>{study.status}</td></tr>)}
                             </tbody>
                         </Table>
                     </Row>
@@ -158,11 +172,11 @@ const Mypage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {studyList.map(study => <tr key={study.key}><td id={study.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="danger" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShow}>취소하기</Badge>}</td><td>{study.status}</td></tr>)}
+                                {studyList.map(study => <tr key={study.key}><td id={study.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="danger" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowCancelModal}>취소하기</Badge>}</td><td>{study.status}</td></tr>)}
                             </tbody>
                         </Table>
                     </Row>
-                    <Modal show={show} onHide={handleClose}>
+                    <Modal show={showCancelModal} onHide={handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title className='modal-title'>스터디 지원 취소</Modal.Title>
                         </Modal.Header>
@@ -171,6 +185,23 @@ const Mypage = () => {
                         <Modal.Footer>
 
                             <Button className="form-button" style={{ width: '100px', backgroundColor: '#80AAA6', borderColor: '#80AAA6' }} onClick={handleCancel}>
+                                네
+          </Button>
+                            <Button className="form-button" style={{ width: '100px', backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }} onClick={handleClose}>
+                                아니오
+          </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <Modal show={showDeleteModal} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title className='modal-title'>스터디 삭제</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ fontSize: '13px' }}>모집중인 스터디를 삭제하시겠습니까?
+                </Modal.Body>
+                        <Modal.Footer>
+
+                            <Button className="form-button" style={{ width: '100px', backgroundColor: '#80AAA6', borderColor: '#80AAA6' }} onClick={handleDelete}>
                                 네
           </Button>
                             <Button className="form-button" style={{ width: '100px', backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }} onClick={handleClose}>
