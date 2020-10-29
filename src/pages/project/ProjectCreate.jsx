@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 const ProjectCreate = () => {
     const [title, setTitle] = useState('');
-    const [skills, setSkills] = useState('');
+    // const [skills, setSkills] = useState('');
     const [region, setRegion] = useState('');
     const [memTotalCapa, setTotalNumber] = useState('');
     const [number, setNumber] = useState({ 기획: 0, 디자인: 0, FE: 0, BE: 0 });
@@ -138,7 +138,7 @@ const ProjectCreate = () => {
             <Row style={{ justifyContent: 'center' }}><p className="form-description">팀 생성을 위한 정보를 입력해 주세요.</p></Row>
             <hr className="form-hr" />
 
-            <Form style={{ width: '500px', margin: 'auto' }} action="http://localhost:8080/api/sideprj/post" method="post" onSubmit={handleSubmit} >
+            <Form style={{ width: '500px', margin: 'auto' }} action="https://localhost:8443/api/sideprj/post" method="post" onSubmit={handleSubmit} >
                 <Form.Group controlId="title">
                     <Form.Label className="form-label">제목<CgAsterisk className="form-required" /></Form.Label>
                     <Form.Control className={classNames({ 'form-error': error.title })} required aria-describedby="titleHelpBlock" placeholder="ex) 음악 플레이리스트 공유앱 만들기" onChange={onChange} onFocus={onFocus} />
@@ -162,11 +162,10 @@ const ProjectCreate = () => {
                         </Form.Group>
                     </Col>
                 </Row>
-                <Form.Group controlId="skills">
+                {/* <Form.Group controlId="skills">
                     <Form.Label className="form-label">기술 스택<CgAsterisk className="form-required" /></Form.Label>
                     <Form.Control required placeholder="ex) react.js, java, c#,..." onChange={onChange} />
-                </Form.Group>
-                        
+                </Form.Group> */}
                 
                     <Form.Group>
                     <Row>
