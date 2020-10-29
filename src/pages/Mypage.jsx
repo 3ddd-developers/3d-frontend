@@ -172,7 +172,7 @@ const Mypage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {studyList.map(study => <tr key={study.key}><td id={study.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="danger" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowCancelModal}>취소하기</Badge>}</td><td>{study.status}</td></tr>)}
+                                {studyList.map(study => <tr key={study.key}><td id={study.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="warning" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowCancelModal}>취소하기</Badge>}</td><td>{study.status}</td></tr>)}
                             </tbody>
                         </Table>
                     </Row>
