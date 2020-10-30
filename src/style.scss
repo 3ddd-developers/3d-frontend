@@ -107,6 +107,15 @@ footer {
   box-shadow: 0 0 0 0.2rem #B5A89B;
 }
 
+.small-button {
+  border: none;
+}
+
+.small-button:hover {
+  background-color: transparent;
+  color: #B5A89B
+}
+
 .main-search {
   width: 750px;
 }
@@ -169,6 +178,10 @@ footer {
   .link {
     position: absolute;
     bottom: 20px;
+  }
+  &:hover {
+    transform: translate(-3px, -4px);
+
   }
 }
 .nav-link {
