@@ -169,7 +169,7 @@ const App = () => {
                     <span onClick={onClickQuestion}>문의하기</span> |
                     <span onClick={onClickPrivacy}>개인정보처리방침</span> |
                     <span onClick={onClickTerm}>이용약관</span> |
-                    <a href="mailto:mirijo02233092@gmail.com">Contact</a>
+                    <a href="mailto:3ddd.developers@gmail.com">Contact</a>
                 </Row>
             </footer>
         </>
