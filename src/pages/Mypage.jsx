@@ -266,7 +266,7 @@ const Mypage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {applyList.map(apply => <tr key={apply.key}><td id={apply.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{apply.title}</td><td>{apply.state}{apply.state === '대기중' && <Badge variant="warning" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowCancelModal} value={apply.key}>취소하기</Badge>}</td>
+                                {applyList.map(apply => <tr key={apply.key}><td id={apply.key}>{apply.title}</td><td>{apply.state}{apply.state === '대기중' && <Badge variant="warning" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowCancelModal} value={apply.key}>취소하기</Badge>}</td>
                                     {/* <td>{study.status}</td> */}
                                 </tr>)}
                             </tbody>
