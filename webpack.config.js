@@ -22,6 +22,16 @@ module.exports = {
             "Accept": "application/json"
         },
         proxy: {
+            '/api/user': {
+                target: 'https://localhost:8443',
+                secure: false,
+                changeOrigin: true
+            },
+            '/api/study': {
+                target: 'https://localhost:8443',
+                secure: false,
+                changeOrigin: true
+            },
             '/api/github': {
                 target: 'https://api.github.com',
                 pathRewrite: { '^/api/github/': '/' },
