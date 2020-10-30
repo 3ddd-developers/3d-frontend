@@ -12,14 +12,17 @@ const ProjectCreate = () => {
     const [memTotalCapa, setTotalNumber] = useState('');
     const [number, setNumber] = useState({ 기획: 0, 디자인: 0, FE: 0, BE: 0 });
     const [content, setContent] = useState('');
-    const [onoffline, setOnOffline] = useState('');
+    const [onoffline, setOnoffline] = useState('오프라인');
 
     //모집 인원(셀렉 박스로 수정)-> 기획, FE, BE, 디자인
-    const onOfflines = ['오프라인', '온라인', '온오프 둘 다'];
+    const onoffs = ['오프라인', '온라인', '온오프 둘 다'];
 
     const [error, setError] = useState({ title: false, content: false, memTotalCapa: false });
-    console.log(number);
-    console.log(memTotalCapa);
+    // console.log(number);
+    // console.log(memTotalCapa);
+    // console.log(onoffline);
+    // console.log(content)
+
     const handleSubmit = () => {
 
         // TODO
@@ -47,7 +50,7 @@ const ProjectCreate = () => {
         json['leader'] = 123;
         json['meeting'] = onoffline;
         json['location'] = region;
-        json['content'] = content;
+        json['contents'] = content;
         json['memTotalCapa'] = memTotalCapa;
         json['title'] = title;
         const recruitingArea = new Map();
@@ -94,8 +97,8 @@ const ProjectCreate = () => {
             case 'skills':
                 setSkills(evt.target.value);
                 break;
-            case 'on-offline':
-                setOnOffline(evt.target.value);
+            case 'onoffline':
+                setOnoffline(evt.target.value);
                 break;
             case 'region':
                 setRegion(evt.target.value);
@@ -166,10 +169,10 @@ const ProjectCreate = () => {
                     </Form.Group>
                     </Col>
                     <Col sm={4}>
-                        <Form.Group controlId="on-offline">
+                        <Form.Group controlId="onoffline">
                             <Form.Label className="form-label">모임 방식<CgAsterisk className="form-required" /></Form.Label>
                             <Form.Control required as="select" onChange={onChange}>
-                                {onOfflines.map((onoffline, idx) => <option key={idx}>{onoffline}</option>)}
+                                {onoffs.map((onoff, idx) => <option key={idx}>{onoff}</option>)}
                             </Form.Control>
                         </Form.Group>
                     </Col>
