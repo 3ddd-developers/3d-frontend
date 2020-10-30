@@ -96,7 +96,8 @@ const Mypage = () => {
             .then(response => {
                 handleClose();
                 // window.location.href = '/#/mypage';
-                setTab('account');
+                window.history.go(0);
+                // setTab('account');
             })
             .catch(err => {
 
