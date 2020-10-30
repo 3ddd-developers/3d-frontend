@@ -13,7 +13,7 @@ import './style.scss';
 
 const UserInfo = props => {
     const logout = () => {
-        window.localStorage.clear();
+        window.sessionStorage.clear();
         window.location.href = '/';
     }
 
@@ -38,7 +38,7 @@ const App = () => {
     const [user, setUser] = useState('');
 
     useEffect(() => {
-        if (user === '' && window.localStorage.getItem('userName')) setUser(window.localStorage.getItem('userName'));
+        if (user === '' && window.sessionStorage.getItem('userName')) setUser(window.sessionStorage.getItem('userName'));
 
         if (!window.location.href.includes('code')) return;
 
@@ -70,9 +70,9 @@ const App = () => {
                             // TODO: user get api 연동 
                             if (true) {
                                 // userDB 에 있는 id
-                                window.localStorage.setItem('at', at);
-                                window.localStorage.setItem('userId', response.data.id);
-                                window.localStorage.setItem('userName', response.data.login);
+                                window.sessionStorage.setItem('at', at);
+                                window.sessionStorage.setItem('userId', response.data.id);
+                                window.sessionStorage.setItem('userName', response.data.login);
                                 setUser(response.data.login);
                             } else {
                                 // userDB 에 없는 id
@@ -134,7 +134,7 @@ const App = () => {
                 <span className="menu" onClick={onClickNotice}>공지사항</span>
                 <span className="menu" onClick={onClickCommunity}>커뮤니티</span>
                 <span className="menu" onClick={onClickQuestion}>문의하기</span>
-                {window.localStorage.getItem('userName') ? <UserInfo userName={user} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
+                {window.sessionStorage.getItem('userName') ? <UserInfo userName={user} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
             </header>
             <Container style={{ paddingTop: '7%', paddingBottom: '7%' }}>
                 <Switch>
