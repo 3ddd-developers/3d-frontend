@@ -43,20 +43,32 @@ const ProjectCreate = () => {
         }
 
         // TODO: user_id (github) 연동 조사
-        let json = {
-            user_id: 123,
-            leader: 123,
-            meeting: onoffline,
-            location: region,
-            content: content,
-            memTotalCapa: memTotalCapa,
-            title: title,
-            recruitingArea: number
-        };
+        let json = new Map();
+        json['leader'] = 123;
+        json['meeting'] = onoffline;
+        json['location'] = region;
+        json['content'] = content;
+        json['memTotalCapa'] = memTotalCapa;
+        json['title'] = title;
+        const recruitingArea = new Map();
+        recruitingArea['FE'] = number.FE;
+        recruitingArea['BE'] = number.BE;
+        recruitingArea['기획'] = number.기획;
+        recruitingArea['디자인'] = number.디자인;
+        json['recruitingArea'] = recruitingArea;
+        
 
         console.log(json);
+
+        const config = {
+            headers: { 'Content-Type': 'application/json' },
+            responseType: 'blob'
+        };
+
+
         // 서버로 POST
-        axios.post('https://localhost:8443/api/sideprj/post', json)
+        axios
+            .post('https://localhost:8443/api/sideprj/post', JSON.stringify(json), config)
             .then(function (response) {
                 console.log(response);
                 // TODO: 생성 성공 시 메인 홈페이지로 라우팅
@@ -138,7 +150,7 @@ const ProjectCreate = () => {
             <Row style={{ justifyContent: 'center' }}><p className="form-description">팀 생성을 위한 정보를 입력해 주세요.</p></Row>
             <hr className="form-hr" />
 
-            <Form style={{ width: '500px', margin: 'auto' }} action="https://localhost:8443/api/sideprj/post" method="post" onSubmit={handleSubmit} >
+            <Form style={{ width: '500px', margin: 'auto' }} onSubmit={handleSubmit} >
                 <Form.Group controlId="title">
                     <Form.Label className="form-label">제목<CgAsterisk className="form-required" /></Form.Label>
                     <Form.Control className={classNames({ 'form-error': error.title })} required aria-describedby="titleHelpBlock" placeholder="ex) 음악 플레이리스트 공유앱 만들기" onChange={onChange} onFocus={onFocus} />
