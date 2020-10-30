@@ -302,15 +302,19 @@ const Main = () => {
 
             return;
             axios
-                .get('/api/sideprj/posts?limit=20&offset=0&search=당근')
+                .get('/api/sideprj/posts?limit=20&offset=0&search=당근', {
+                    params: {
+                        // 뭘까..??
+                    }
+                })
                 .then(function (response) {
                     console.log(response);
                     let arr = response.data.res.map(item => {
                         return {
-                            key: item.post_seq,
+                            key: item.seq,
                             title: item.title,
-                            space: item.place_seq,
-                            content: item.content
+                            space: item.location,
+                            content: item.contents
                         }
                     });
 
