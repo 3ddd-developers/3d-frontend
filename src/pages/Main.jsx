@@ -111,12 +111,10 @@ const Main = () => {
     const onChange = evt => {
         switch (evt.target.id) {
             case 'region':
-
                 setRegion(evt.target.value);
                 setActive(1);
                 break;
             case 'state':
-
                 setState(evt.target.value);
                 setActive(1);
                 break;
@@ -301,6 +299,26 @@ const Main = () => {
                     content: '이 어플 사용자 0순위가 저입니다ㅠㅠ 운동 좀 하라고 쪼는 어플 만들기'
                 }
             ]);
+
+            // return;
+            axios
+                .get('/api/sideprj/posts?limit=20&offset=0&search=당근')
+                .then(function (response) {
+                    console.log(response);
+                    // let arr = response.data.res.map(item => {
+                    //     return {
+                    //         key: item.post_seq,
+                    //         title: item.title,
+                    //         space: item.place_seq,
+                    //         content: item.content
+                    //     }
+                    // });
+
+                    // setStudyList(arr);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     }, [tab]);
 
@@ -385,7 +403,16 @@ const Main = () => {
                         </Row>
                         <hr style={{ marginTop: '50px' }} />
                         <Row style={{ marginTop: '50px' }}>
-                            {projectList.map(project => StudyCard(project))}
+                            {projectList.map(project => ProjectCard(project))}
+                        </Row>
+                        <Row style={{ justifyContent: 'center', marginTop: '100px' }}>
+                            <Pagination>
+                                <Pagination.First onClick={() => setActive(1)} />
+                                <Pagination.Prev onClick={() => setActive(active - 1)} />
+                                {pages}
+                                <Pagination.Next onClick={() => setActive(active + 1)} />
+                                <Pagination.Last onClick={() => setActive(5)} />
+                            </Pagination>
                         </Row>
                     </Tab>
                 </Tabs>

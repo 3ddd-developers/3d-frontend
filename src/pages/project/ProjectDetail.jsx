@@ -4,9 +4,21 @@ import axios from 'axios';
 
 
 const ProjectDetail = props => {
-
     const [show, setShow] = useState(false);
-    const [status, setStatus] = useState('FE: 1(0)명, BE: 2(1)명');
+    const [applyContent, setApplyContent] = useState('');
+    const [error, setError] = useState(false);
+
+    // 제목, 상태, 주제, 지역, 모집인원, 내용
+    const [title, setTitle] = useState('도트 좀비게임 만들어요~');
+    const [writer, setWriter] = useState('생존자');
+    // const [date, setDate] = useState('2020/10/30');
+    const [status, setStatus] = useState('모집중');
+    const [region, setRegion] = useState('경기도 광명시');
+    const [memTotalCapa, setMemTotalCapa] = useState(5);
+    const [content, setContent] = useState('도트로 표현되는 작은 좀비게임 만들어보고 싶습니다ㅎㅎ');
+    const [onoffline, setOnoffline] = useState('온오프 둘 다');
+    const [member, setMember] = useState({"기획": 1, "디자인": 1,"FE": 1, "BE": 2})
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -29,46 +41,101 @@ const ProjectDetail = props => {
             </Row>
             <hr className="form-hr" />
             <Form style={{ width: '500px', margin: 'auto' }}>
-                <Form.Group controlId="title">
+                <Row>
+                     <Col>
+                    <Form.Group controlId="title">
                     <Form.Label className="form-label">제목</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="'우리동네 맛집' 앱 개발 프로젝트입니다." />
+                    <Form.Control plaintext readOnly defaultValue={title} />
                 </Form.Group>
-                <Form.Group controlId="number">
-                    <Form.Label className="form-label">모집인원</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="3" >
-                    </Form.Control>
-                </Form.Group>
-     
+                    </Col>
+                    <Col>
+                    <Form.Group controlId="writer">
+                            <Form.Label className="form-label">작성자</Form.Label>
+                            <Form.Control plaintext readOnly defaultValue={writer} >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
                 <Form.Group controlId="status">
                     <Form.Label className="form-label">상태</Form.Label>
                     <Form.Control plaintext readOnly defaultValue={status} />
                 </Form.Group>
                 <Row>
+                <Col sm={4}>
+                <Form.Group controlId="memTotalCapa">
+                    <Form.Label className="form-label">모집인원</Form.Label>
+                    <Form.Control plaintext readOnly defaultValue={memTotalCapa} >
+                    </Form.Control>
+                </Form.Group>
+                </Col>
+                <Col sm={2}>
+                <Form.Group controlId="기획">
+                    <Form.Label className="form-label">기획</Form.Label>
+                    <Form.Control plaintext readOnly defaultValue={member.기획} >
+                    </Form.Control>
+                </Form.Group>
+                </Col>
+                <Col sm={2}>
+                <Form.Group controlId="디자인">
+                    <Form.Label className="form-label">디자인</Form.Label>
+                    <Form.Control plaintext readOnly defaultValue={member.디자인} >
+                    </Form.Control>
+                </Form.Group>
+                </Col>
+                <Col sm={2}>
+                <Form.Group controlId="FE">
+                    <Form.Label className="form-label">FE</Form.Label>
+                    <Form.Control plaintext readOnly defaultValue={member.FE} >
+                    </Form.Control>
+                </Form.Group>
+                </Col>
+                <Col sm={2}>
+                <Form.Group controlId="BE">
+                    <Form.Label className="form-label">BE</Form.Label>
+                    <Form.Control plaintext readOnly defaultValue={member.BE} >
+                    </Form.Control>
+                </Form.Group>
+                </Col>
+                </Row>
+       
+
+
+
+
+
+
+
+                {/* <Form.Group controlId="date">
+                            <Form.Label className="form-label">작성일</Form.Label>
+                            <Form.Control plaintext readOnly defaultValue={date} >
+                            </Form.Control>
+                        </Form.Group> */}
+                <Row>
                      <Col>
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">지역</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue="서울 서초" >
+                            <Form.Control plaintext readOnly defaultValue={region} >
                             </Form.Control>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="on-offline">
                             <Form.Label className="form-label">모임 방식</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue="온오프라인 둘 다" >
+                            <Form.Control plaintext readOnly defaultValue={onoffline} >
                             </Form.Control>
                         </Form.Group>
                     </Col>
                 </Row>
             
-                <Form.Group controlId="skills">
+                {/* <Form.Group controlId="skills">
                     <Form.Label className="form-label">기술 스택</Form.Label>
                     <Form.Control plaintext readOnly defaultValue="swift, spring" >
                     </Form.Control>
-                </Form.Group>
+                </Form.Group> */}
                     
                 <Form.Group controlId="description">
                     <Form.Label className="form-label">설명</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="동네 맛집을 공유하는 어플입니다." />
+                    <Form.Control plaintext readOnly defaultValue={content} />
                 </Form.Group>
                 <Form.Group controlId="content">
                 </Form.Group>
@@ -84,12 +151,11 @@ const ProjectDetail = props => {
             </Form>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title className='modal-title'>스터디 지원</Modal.Title>
+                    <Modal.Title className='modal-title'>프로젝트 지원</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ fontSize: '13px' }}>[우리동네 맛집' 앱 개발 같이 해요!] 프로젝트 팀장에게 전송할 메시지를 입력해 주세요.
                 <Form.Group controlId="content" style={{ marginTop: '10px' }}>
                         <Form.Control as="textarea" aria-describedby="contentHelpBlock" rows={3} />
-
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

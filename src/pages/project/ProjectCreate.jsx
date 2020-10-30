@@ -71,8 +71,8 @@ const ProjectCreate = () => {
             .post('https://localhost:8443/api/sideprj/post', JSON.stringify(json), config)
             .then(function (response) {
                 console.log(response);
-                // TODO: 생성 성공 시 메인 홈페이지로 라우팅
-                window.location.href = `/`;
+                window.location.href = `/#/projectDetail/1`
+                // window.location.href = `/#/studyDetail/${response.post_seq}`
             })
             .catch(function (error) {
                 console.log(error);
