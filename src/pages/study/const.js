@@ -12,7 +12,7 @@ export const STATUS_CODE = Object.freeze({
     'SS10': '대기중',
     'SS20': '참여',
     'SS30': '거절됨',
-    'SS30': '지원취소',
+    'SS40': '지원취소',
     'SSP1': '모집중',
     'SSP2': '모집완료'
 })
