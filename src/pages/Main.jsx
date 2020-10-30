@@ -30,9 +30,36 @@ const StudyCard = ({ key, title, space, content }) => {
     );
 };
 
+const ProjectCard = ({ key, title, space, content }) => {
+    const handleClick = () => {
+        window.location.href = `/#/projectDetail/${key}`;
+    };
+    return (
+        <Col key={key}>
+            <Card
+                onClick={handleClick}
+                className='main-card'
+            >
+                <Card.Body>
+                    <Card.Title className='title'>{title}</Card.Title>
+                    <Card.Subtitle className='mb-2 muted sub-title'>{space}</Card.Subtitle>
+                    <Card.Text className='description'>{content}</Card.Text>
+                    <Card.Link className='link'>
+                        자세히 보기
+                            <IoIosArrowForward
+                            style={{ marginBottom: "0.1rem" }}
+                        />
+                    </Card.Link>
+                </Card.Body>
+            </Card>
+        </Col>
+    );
+};
+
 const Main = () => {
     const [tab, setTab] = useState('study');
     const [studyList, setStudyList] = useState([]);
+    const [projectList, setProjectList] = useState([]);
     const [searchVal, setSearchVal] = useState('');
 
     const [offset, setOffset] = useState(0);
@@ -224,6 +251,56 @@ const Main = () => {
 
         } else {
             // TODO: project get 서비스 연동
+            setProjectList([
+                {
+                    key: 1,
+                    title: '음악 공유앱 만드실 분?',
+                    space: '서울 서초구',
+                    content: '사람들은 모르는 나만 아는 노래들 공유하는 어플 만들기'
+                },
+                {
+                    key: 2,
+                    title: 'COVID-19와 환경 문제 (ML 분석)',
+                    space: '제주도',
+                    content: '코로나로 인해 지구 환경이 더 나빠졌을지, 좋아졌을지 분석합니다!'
+                },
+                {
+                    key: 3,
+                    title: '도트 좀비게임 만들어요~',
+                    space: '경기도 광명시',
+                    content: '도트로 표현되는 작은 좀비게임 만들어보고 싶습니다ㅎㅎ'
+                },
+                {
+                    key: 4,
+                    title: '"제발 운동 좀 해" 어플',
+                    space: '서울',
+                    content: '이 어플 사용자 0순위가 저입니다ㅠㅠ 운동 좀 하라고 쪼는 어플 만들기'
+                },
+                {
+                    key: 5,
+                    title: '음악 공유앱 만드실 분?',
+                    space: '서울 서초구',
+                    content: '사람들은 모르는 나만 아는 노래들 공유하는 어플 만들기'
+                },
+                {
+                    key: 6,
+                    title: 'COVID-19와 환경 문제 (ML 분석)',
+                    space: '제주도',
+                    content: '코로나로 인해 지구 환경이 더 나빠졌을지, 좋아졌을지 분석합니다!'
+                },
+                {
+                    key: 7,
+                    title: '도트 좀비게임 만들어요~',
+                    space: '경기도 광명시',
+                    content: '도트로 표현되는 작은 좀비게임 만들어보고 싶습니다ㅎㅎ'
+                },
+                {
+                    key: 8,
+                    title: '"제발 운동 좀 해" 어플',
+                    space: '서울',
+                    content: '이 어플 사용자 0순위가 저입니다ㅠㅠ 운동 좀 하라고 쪼는 어플 만들기'
+                }
+            ]);
         }
     }, [tab]);
 
@@ -248,7 +325,6 @@ const Main = () => {
                                 <Form.Group style={{ marginBottom: '0' }} controlId='search'>
                                     <FormControl className='main-search' onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 스터디 검색' />
                                 </Form.Group>
-
                             </InputGroup>
                         </Row>
                         <Row style={{ justifyContent: 'center', marginTop: '30px' }}>
@@ -264,8 +340,6 @@ const Main = () => {
                                     {states.map((state, idx) => <option key={idx}>{state}</option>)}
                                 </FormControl>
                             </Form.Group>
-
-
                         </Row>
                         <hr style={{ marginTop: '50px' }} />
                         <Row style={{ marginTop: '50px' }}>
@@ -281,72 +355,37 @@ const Main = () => {
                             </Pagination>
                         </Row>
                     </Tab>
+
                     <Tab eventKey="project" title="프로젝트">
-                        <Row>
-                            <Button className='main-button' style={{ marginLeft: '10px' }} onClick={onClickCreateProject}>프로젝트 모집</Button>
-                            <DropdownButton className='main-filter' id="dropdown-region" title="지역">
-                                <Dropdown.Item href="#/action-1">서울</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">경기</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">인천</Dropdown.Item>
-                                <Dropdown.Item href="#/action-4">제주</Dropdown.Item>
-                                <Dropdown.Item href="#/action-5">강원</Dropdown.Item>
-                            </DropdownButton>
-                            <DropdownButton className='main-filter' style={{ marginLeft: '10px' }} id="dropdown-status" title="상태">
-                                <Dropdown.Item href="#/action-1">모집중</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">모집완료</Dropdown.Item>
-                            </DropdownButton>
+                    <Row style={{ marginTop: '50px', justifyContent: 'center' }}>
+                            <InputGroup className="mb-3" style={{ width: '800px', height: '50px' }}>
+                                <InputGroup.Prepend>
+                                <Button onClick={onSearch} variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
+                                </InputGroup.Prepend>
+                                <Form.Group style={{ marginBottom: '0' }} controlId='search'>
+                                    <FormControl className='main-search' onKeyDown={onSearch} style={{ height: '50px' }} placeholder='제목으로 프로젝트 검색' />
+                                </Form.Group>
+                            </InputGroup>
                         </Row>
-
-                        <Row style={{ marginTop: '30px' }}>
-                            <Col>
-                                <Card className="main-card" style={{ width: '15rem', height: '13rem' }}>
-                                    <Card.Body>
-                                        <Card.Title className='title'>리액트 스터디 모집해요!</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted sub-title">서울</Card.Subtitle>
-                                        <Card.Text className='description'>
-                                            토요일 저녁 강남역 부근에서 리액트 스터디하실 분 구해요~
-    </Card.Text>
-                                        <Card.Link href="#/projectDetail">자세히 보기 &gt;</Card.Link>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col>
-                                <Card className="main-card" style={{ width: '15rem', height: '13rem' }}>
-                                    <Card.Body>
-                                        <Card.Title className='title'>C++ 스터디 해요~</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted sub-title">제주</Card.Subtitle>
-                                        <Card.Text className='description'>
-                                            평일 저녁 퇴근 후 같이 스터디해요!
-    </Card.Text>
-                                        <Card.Link href="#/projectDetail">자세히 보기 &gt;</Card.Link>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col>
-                                <Card className="main-card" style={{ width: '15rem', height: '13rem' }}>
-                                    <Card.Body>
-                                        <Card.Title className='title'>iOS 프로젝트 모집</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted sub-title">경기</Card.Subtitle>
-                                        <Card.Text className='description'>
-                                            모바일 앱 프로젝트 하실분 구합니다~
-    </Card.Text>
-                                        <Card.Link href="#/projectDetail">자세히 보기 &gt;</Card.Link>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col>
-                                <Card className="main-card" style={{ width: '15rem', height: '13rem' }}>
-                                    <Card.Body>
-                                        <Card.Title className='title'>웹 앱 개발해요!</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted sub-title">서울</Card.Subtitle>
-                                        <Card.Text className='description'>
-                                            BE, FE, 디자이너분 구합니다!
-    </Card.Text>
-                                        <Card.Link href="#/projectDetail">자세히 보기 &gt;</Card.Link>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-
+                        <Row style={{ justifyContent: 'center', marginTop: '30px' }}>
+                            <Button className='main-button' style={{ marginLeft: '10px', marginRight: '20px' }} onClick={onClickCreateProject}>프로젝트 모집</Button>
+                            <InputGroup className="mb-3" style={{ width: '150px', height: '40px' }}>
+                                <Form.Group style={{ marginBottom: '0' }} controlId='search'>
+                                    <FormControl className='sub-search' onKeyDown={onSearch} style={{ height: '40px', width: '100px' }} placeholder='지역 검색' />
+                                </Form.Group>
+                                <InputGroup.Prepend>
+                                <Button className='small-button' onClick={onSearch} variant="outline-secondary"> <BiSearch style={{ width: '25px', height: '25px' }} /></Button>
+                                </InputGroup.Prepend>
+                            </InputGroup>
+                            <Form.Group controlId='state'>
+                                <FormControl className='main-select' as="select" onChange={onChange}>
+                                    {states.map((state, idx) => <option key={idx}>{state}</option>)}
+                                </FormControl>
+                            </Form.Group>
+                        </Row>
+                        <hr style={{ marginTop: '50px' }} />
+                        <Row style={{ marginTop: '50px' }}>
+                            {projectList.map(project => StudyCard(project))}
                         </Row>
                     </Tab>
                 </Tabs>
