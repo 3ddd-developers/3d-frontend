@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Main, Login, Mypage, SignUp, Error, CommingSoon } from './pages';
+import { Main, Login, Mypage, SignUp, Error, CommingSoon, Manage } from './pages';
 import { StudyApply, StudyCreate, StudyDetail } from './pages/study';
 import { ProjectApply, ProjectCreate, ProjectDetail } from './pages/project';
 import { BsFillPeopleFill } from "react-icons/bs";
 import { Container, Button, Dropdown, Row } from 'react-bootstrap';
 import { FaUserCircle } from "react-icons/fa";
+import USER_API from './api/USER_API';
 import qs from 'qs';
 import axios from 'axios';
 import config from '../config';
@@ -13,7 +14,7 @@ import './style.scss';
 
 const UserInfo = props => {
     const logout = () => {
-        window.localStorage.clear();
+        window.sessionStorage.clear();
         window.location.href = '/';
     }
 
@@ -35,10 +36,10 @@ const UserInfo = props => {
 }
 
 const App = () => {
-    const [user, setUser] = useState('');
+    // const [user, setUser] = useState('');
 
     useEffect(() => {
-        if (user === '' && window.localStorage.getItem('userName')) setUser(window.localStorage.getItem('userName'));
+        // if (user === '' && window.sessionStorage.getItem('userName')) setUser(window.sessionStorage.getItem('userName'));
 
         if (!window.location.href.includes('code')) return;
 
@@ -66,18 +67,29 @@ const App = () => {
                         .then(function (response) {
                             // console.log(response);
 
-                            // 해당 id가 userDB 에 있는 값인지 확인하고 있으면 로그인, 없으면 회원가입 
-                            // TODO: user get api 연동 
-                            if (true) {
-                                // userDB 에 있는 id
-                                window.localStorage.setItem('at', at);
-                                window.localStorage.setItem('userId', response.data.id);
-                                window.localStorage.setItem('userName', response.data.login);
-                                setUser(response.data.login);
-                            } else {
-                                // userDB 에 없는 id
-                                window.location.href = `/#/signUp?id=${response.data.id}&name=${response.data.login}&email=${response.data.email}`;
-                            }
+                            let json = {
+                                userId: response.data.id
+                            };
+                            USER_API.exists(json)
+                                .then(res => {
+                                    // console.log(typeof response.data.response.exist);
+                                    if (res.data.response.exist) {
+                                        // userDB 에 있는 id
+                                        // 로그인
+                                        // window.sessionStorage.setItem('at', at);
+                                        // console.log(res.data.response.exist)
+                                        window.sessionStorage.setItem('id', res.data.response.seq);
+                                        window.sessionStorage.setItem('name', res.data.response.name);
+                                        window.location.href = '/';
+                                    } else {
+                                        // userDB 에 없는 id
+                                        // 회원가입 페이지로 라우팅
+                                        window.location.href = `/#/signUp?id=${response.data.id}&name=${response.data.login}&email=${response.data.email}`;
+                                    }
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -134,7 +146,7 @@ const App = () => {
                 <span className="menu" onClick={onClickNotice}>공지사항</span>
                 <span className="menu" onClick={onClickCommunity}>커뮤니티</span>
                 <span className="menu" onClick={onClickQuestion}>문의하기</span>
-                {window.localStorage.getItem('userName') ? <UserInfo userName={user} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
+                {window.sessionStorage.getItem('name') ? <UserInfo userName={window.sessionStorage.getItem('name')} /> : <Button className='header-button' onClick={onClickLogin}>로그인</Button>}
             </header>
             <Container style={{ paddingTop: '7%', paddingBottom: '7%' }}>
                 <Switch>
@@ -153,6 +165,8 @@ const App = () => {
                     <Route path="/question" component={CommingSoon} />
                     <Route path="/term" component={CommingSoon} />
                     <Route path="/privacy" component={CommingSoon} />
+                    <Route path="/manage/:id" component={CommingSoon} />
+                    {/* <Route path="/manage/:id" component={Manage} /> */}
                     <Route exact path="/" component={Main} />
                     <Route component={Error} />
                 </Switch>
@@ -168,7 +182,7 @@ const App = () => {
                     <span onClick={onClickQuestion}>문의하기</span> |
                     <span onClick={onClickPrivacy}>개인정보처리방침</span> |
                     <span onClick={onClickTerm}>이용약관</span> |
-                    <a href="mailto:mirijo02233092@gmail.com">Contact</a>
+                    <a href="mailto:3ddd.developers@gmail.com">Contact</a>
                 </Row>
             </footer>
         </>

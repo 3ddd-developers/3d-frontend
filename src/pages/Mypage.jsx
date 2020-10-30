@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Tabs, Tab, Table, Form, Button, Badge, Modal } from 'react-bootstrap';
+import STUDY_API from '../api/STUDY_API';
+import USER_API from '../api/USER_API';
+import { STATUS_CODE } from '../pages/study';
 
 const Mypage = () => {
     const [description, setDescription] = useState('계정 정보를 확인 및 수정할 수 있습니다.');
     const [tab, setTab] = useState('account');
     const [disable, setDisable] = useState({ nickname: true, email: true });
+    const [studyList, setStudyList] = useState([]); // 모집 스터디
+    const [applyList, setApplyList] = useState([]); // 지원 스터디
+    const [selected, setSelected] = useState('');
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState(email);
 
     // Modal
     const [show, setShow] = useState(false);
@@ -15,13 +24,15 @@ const Mypage = () => {
         showCancelModal ? setShowCancelModal(false) : setShowDeleteModal(false)
     }
 
-    const handleShowCancelModal = () => {
+    const handleShowCancelModal = evt => {
         // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
+        setSelected(evt.target.getAttribute('value'));
         setShowCancelModal(true);
     }
 
-    const handleShowDeleteModal = () => {
+    const handleShowDeleteModal = evt => {
         // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
+        setSelected(evt.target.getAttribute('value'));
         setShowDeleteModal(true);
     }
 
@@ -69,40 +80,121 @@ const Mypage = () => {
         window.location.href = `/#/studyDetail/${evt.target.id}`;
     }
 
+    const onClickManage = evt => {
+        // console.log(evt.target.getAttribute('value'));
+        window.location.href = `/#/manage/${evt.target.getAttribute('value')}`;
+    }
+
     const handleCancel = () => {
         // TODO: 스터디 지원 취소
+        let json = {
+            applySeq: selected,
+            applyStatus: 'SS40'
+        }
+        // console.log(json)
+        STUDY_API.cancelApply(selected, json)
+            .then(response => {
+                handleClose();
+                // window.location.href = '/#/mypage';
+                setTab('account');
+            })
+            .catch(err => {
+
+            });
     }
 
     const handleDelete = () => {
-        // TODO: 스터디 삭제
+        STUDY_API.getStudy(selected)
+            .then(response => {
+                let json = {
+                    title: response.data.response.post.title,
+                    content: response.data.response.post.content,
+                    memberNumber: response.data.response.post.memberNumber,
+                    statusSeq: response.data.response.post.statusSeq.value,
+                    placeSeq: response.data.response.post.placeSeq.value,
+                    subjectSeq: response.data.response.post.subjectSeq
+                }
+
+                STUDY_API.deleteStudy(selected, json)
+                    .then(response => {
+                        // console.log(response.data.success);
+                        handleClose();
+                        USER_API.getMyStudy(window.sessionStorage.getItem('id'))
+                            .then(response => {
+                                // console.log(response);
+                                let arr = [];
+                                response.data.response.posts.forEach(item => {
+                                    arr.push({
+                                        key: item.seq,
+                                        title: item.title,
+                                        state: STATUS_CODE[item.statusSeq.value]
+                                    })
+                                });
+                                setStudyList(arr);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     useEffect(() => {
-        if (!window.localStorage.getItem('userId')) {
+        if (!window.sessionStorage.getItem('id')) {
             window.location.href = '/#/login';
             return;
         }
-    }, []);
 
-    // sample
-    const studyList = [
-        {
-            key: 1,
-            title: '리액트 스터디 모집해요!',
-            state: '모집중',
-            status: '2 / 4'
-        }, {
-            key: 2,
-            title: '알고리즘 공부 하실분',
-            state: '모집중',
-            status: '1 / 3'
-        }, {
-            key: 3,
-            title: '**자바 스터디 모집**',
-            state: '모집완료',
-            status: '3 / 3'
-        },
-    ]
+        USER_API.getMyInfo(window.sessionStorage.getItem('id'))
+            .then(response => {
+                // console.log(response)
+                setName(response.data.response.name);
+                setEmail(response.data.response.email.address);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        USER_API.getMyStudy(window.sessionStorage.getItem('id'))
+            .then(response => {
+                // console.log(response);
+                let arr = [];
+                response.data.response.posts.forEach(item => {
+                    arr.push({
+                        key: item.seq,
+                        title: item.title,
+                        state: STATUS_CODE[item.statusSeq.value]
+                    })
+                });
+                setStudyList(arr);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+        USER_API.getMyApply(window.sessionStorage.getItem('id'))
+            .then(response => {
+                // console.log(response);
+                let arr = [];
+                response.data.response.forEach(item => {
+                    arr.push({
+                        key: item.seq,
+                        title: item.applyPost.title,
+                        state: STATUS_CODE[item.applyStatus.value]
+                    })
+                });
+                setApplyList(arr);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }, []);
 
     return (
         <>
@@ -120,10 +212,11 @@ const Mypage = () => {
                                 <Form.Label className="form-label">닉네임</Form.Label>
                                 <Row>
                                     <Col sm='10'>
-                                        <Form.Control disabled={disable.nickname} defaultValue='taechonkim' />
+                                        <Form.Control disabled={disable.nickname} defaultValue={name} />
                                     </Col>
                                     <Col sm='2'>
-                                        <Button name="nickname" className='account-button' onClick={onEditNickname}>
+                                        {/* <Button name="nickname" className='account-button' onClick={onEditNickname}> */}
+                                        <Button name="nickname" disabled className='disable-button' style={{ backgroundColor: 'gray', borderColor: 'gray' }}>
                                             {disable.nickname ? '수정' : '저장'}
                                         </Button>
                                     </Col>
@@ -133,10 +226,11 @@ const Mypage = () => {
                                 <Form.Label className="form-label">이메일</Form.Label>
                                 <Row>
                                     <Col sm='10'>
-                                        <Form.Control disabled={disable.email} type='email' defaultValue='mirijo02233092@gmail.com' />
+                                        <Form.Control disabled={disable.email} type='email' defaultValue={email} />
                                     </Col>
                                     <Col sm='2'>
-                                        <Button name="email" className='account-button' onClick={onEditEmail}>
+                                        {/* <Button name="email" className='account-button' onClick={onEditEmail}> */}
+                                        <Button name="email" disabled className='disable-button' style={{ backgroundColor: 'gray', borderColor: 'gray' }}>
                                             {disable.email ? '수정' : '저장'}
                                         </Button>
                                     </Col>
@@ -153,11 +247,11 @@ const Mypage = () => {
                                 <tr>
                                     <th>제목</th>
                                     <th>상태</th>
-                                    <th>현황</th>
+                                    <th>지원 현황</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {studyList.map(study => <tr style={{ cursor: 'pointer' }} key={study.key}><td id={study.key} onClick={onClickStudy}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="danger" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowDeleteModal}>삭제하기</Badge>}</td><td>{study.status}</td></tr>)}
+                                {studyList.map(study => <tr key={study.key}><td id={study.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="danger" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowDeleteModal} value={study.key}>삭제하기</Badge>}</td><td><Badge variant="info" pill style={{ cursor: 'pointer' }} onClick={onClickManage} value={study.key}>관리하기</Badge></td></tr>)}
                             </tbody>
                         </Table>
                     </Row>
@@ -168,11 +262,13 @@ const Mypage = () => {
                                 <tr>
                                     <th>제목</th>
                                     <th>상태</th>
-                                    <th>현황</th>
+                                    {/* <th>현황</th> */}
                                 </tr>
                             </thead>
                             <tbody>
-                                {studyList.map(study => <tr key={study.key}><td id={study.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{study.title}</td><td>{study.state}{study.state === '모집중' && <Badge variant="warning" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowCancelModal}>취소하기</Badge>}</td><td>{study.status}</td></tr>)}
+                                {applyList.map(apply => <tr key={apply.key}><td id={apply.key} onClick={onClickStudy} style={{ cursor: 'pointer' }}>{apply.title}</td><td>{apply.state}{apply.state === '대기중' && <Badge variant="warning" style={{ cursor: 'pointer', marginLeft: '3px' }} onClick={handleShowCancelModal} value={apply.key}>취소하기</Badge>}</td>
+                                    {/* <td>{study.status}</td> */}
+                                </tr>)}
                             </tbody>
                         </Table>
                     </Row>

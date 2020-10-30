@@ -6,10 +6,28 @@ const axios_user = axios.create({
 });
 
 const USER_API = {
-    // TODO
-    registerUser(data) {
-        return axios_user.post(data);
+    getMyStudy(data) {
+        return axios_user.get(`/mypage/${data}/post`);
     },
+    // getMyApply(data) {
+    //     return axios_user.get(`/mypage/${data}/post/apply`);
+    // },
+    getMyApply(data) {
+        return axios_user.get(`/mypage/${data}/apply`);
+    },
+    getMyInfo(data) {
+        return axios_user.get(`/mypage/${data}`);
+    },
+    // TODO
+    updateMyInfo(data) {
+
+    },
+    registerUser(data) {
+        return axios_user.post('join', data);
+    },
+    exists(data) {
+        return axios_user.post('exists', data);
+    }
 }
 
 export default USER_API;

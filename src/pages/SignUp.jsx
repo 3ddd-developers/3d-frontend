@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { CgAsterisk } from "react-icons/cg";
-import axios from 'axios';
+import USER_API from '../api/USER_API';
 
 const SignUp = () => {
     const id = window.location.href.slice(window.location.href.indexOf('=') + 1, window.location.href.indexOf('&'));
@@ -13,17 +12,38 @@ const SignUp = () => {
     const [mail, setMail] = useState('');
 
     const onChange = evt => {
-        evt.target.id === 'nickname' ? setNickname(evt.target.value) : setMail(evt.target.mail);
+        evt.target.id === 'nickname' ? setNickname(evt.target.value) : setMail(evt.target.value);
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = evt => {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        if (nickname === '' || mail === '') return;
+
         // TODO: 회원가입 서비스 연동 
         let json = {
-
+            userId: id,
+            name: nickname,
+            email: mail
         }
 
-        // TODO: 로그인된 상태로 메인으로 이동하는 로직 추가 (App.jsx useEffect 참고)
-        // TODO: 로그인 API 가 별도로 있는지 확인 
+        // console.log(json);
+        // return;
+
+        USER_API.registerUser(json)
+            .then(response => {
+                // console.log(response);
+                window.sessionStorage.setItem('id', response.data.response);
+                // window.sessionStorage.setItem('userId', id);
+                window.sessionStorage.setItem('name', nickname);
+                window.location.href = '/';
+                // TODO: 로그인된 상태로 메인으로 이동하는 로직 추가 (App.jsx useEffect 참고)
+                // TODO: 로그인 API 가 별도로 있는지 확인 
+            })
+            .catch(err => {
+                console.log(response);
+            })
     }
 
     const onClickCancel = () => {
