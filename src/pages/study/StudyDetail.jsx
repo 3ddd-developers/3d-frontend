@@ -53,7 +53,10 @@ const StudyDetail = props => {
         setShow(true);
     }
 
-    const handleApply = () => {
+    const handleApply = evt => {
+        evt.stopPropagation();
+        evt.preventDefault();
+
         if (applyContent.length === 0) {
             setError(true);
             setHelpMsg('내용을 입력해 주세요.');
@@ -81,7 +84,10 @@ const StudyDetail = props => {
                 window.location.href = '/#/mypage';
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err);
+                // 중복 지원
+                setError(true);
+                setHelpMsg('이미 지원한 스터디입니다. 동일한 스터디에 중복 지원할 수 없습니다.');
             });
 
     }
