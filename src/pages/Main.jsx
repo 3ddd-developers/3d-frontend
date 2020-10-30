@@ -32,7 +32,7 @@ const StudyCard = ({ key, title, space, content }) => {
 
 const ProjectCard = ({ key, title, space, content }) => {
     const handleClick = () => {
-        window.location.href = `/#/projectDetail/${key}`;
+        window.location.href = `/#/ProjectDetail/${key}`;
     };
     return (
         <Col key={key}>
@@ -300,13 +300,9 @@ const Main = () => {
                 }
             ]);
 
-            return;
+            // return;
             axios
-                .get('/api/sideprj/posts?limit=20&offset=0&search=당근', {
-                    params: {
-                        // 뭘까..??
-                    }
-                })
+                .get('/api/sideprj/posts?limit=20&offset=0&search=당근')
                 .then(function (response) {
                     console.log(response);
                     let arr = response.data.res.map(item => {

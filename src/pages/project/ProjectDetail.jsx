@@ -23,7 +23,30 @@ const ProjectDetail = props => {
     const handleShow = () => setShow(true);
 
     const handleApply = () => {
+        let json = new Map();
+        json['postSeq'] = 2;
+        json['memId'] = "dkjl"; //암호생성?, 아니면 닉네임??;
+        json['message'] = "content";
+        json['recArea'] = "position";
 
+        console.log(json);
+
+        const config = {
+            headers: { 'Content-Type': 'application/json' },
+            responseType: 'blob'
+        };
+
+        // 서버로 POST
+        axios
+            .post('https://localhost:8443/api/sideprj/apply', JSON.stringify(json), config)
+            .then(function (response) {
+                console.log(response);
+                window.location.href = `/#/projectDetail/1`
+                // window.location.href = `/#/studyDetail/${response.post_seq}`
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const goMain = () => {
@@ -97,14 +120,6 @@ const ProjectDetail = props => {
                 </Form.Group>
                 </Col>
                 </Row>
-       
-
-
-
-
-
-
-
                 {/* <Form.Group controlId="date">
                             <Form.Label className="form-label">작성일</Form.Label>
                             <Form.Control plaintext readOnly defaultValue={date} >
@@ -156,7 +171,13 @@ const ProjectDetail = props => {
                 <Modal.Body style={{ fontSize: '13px' }}>[우리동네 맛집' 앱 개발 같이 해요!] 프로젝트 팀장에게 전송할 메시지를 입력해 주세요.
                 <Form.Group controlId="content" style={{ marginTop: '10px' }}>
                         <Form.Control as="textarea" aria-describedby="contentHelpBlock" rows={3} />
-                    </Form.Group>
+                </Form.Group>
+                <Form.Group controlId="position">
+                    <Form.Check type="radio" name="position" label="기획" />
+                    <Form.Check type="radio" name="position" label="디자인" />
+                    <Form.Check type="radio" name="position" label="FE" />
+                    <Form.Check type="radio" name="position" label="BE" />
+                </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="form-button" style={{ width: '100px', backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }} onClick={handleClose}>
