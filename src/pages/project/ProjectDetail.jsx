@@ -25,7 +25,7 @@ const ProjectDetail = props => {
     const handleApply = () => {
         let json = new Map();
         json['postSeq'] = 2;
-        json['memId'] = "dkjl"; //암호생성?, 아니면 닉네임??;
+        json['memId'] = "dkjl";
         json['message'] = "content";
         json['recArea'] = "position";
 

@@ -10,7 +10,7 @@ const ProjectCreate = () => {
     // const [skills, setSkills] = useState('');
     const [region, setRegion] = useState('');
     const [memTotalCapa, setTotalNumber] = useState('');
-    const [number, setNumber] = useState({ 기획: 0, 디자인: 0, FE: 0, BE: 0 });
+    const [number, setNumber] = useState({ "기획": 0, "디자인": 0, "FE": 0, "BE": 0 });
     const [content, setContent] = useState('');
     const [onoffline, setOnoffline] = useState('오프라인');
 
@@ -40,10 +40,22 @@ const ProjectCreate = () => {
         }
 
         // number validation 
-        if (memTotalCapa.match(/[^0-9]/g)) {
-            setError({ ...error, memTotalCapa: true });
-            return;
-        }
+        // if (memTotalCapa !== (number.기획 + number.디자인 + number.FE + number.BE)) {
+        //     console.log('숫자가 맞지 않는 에러가 발생했습니다!')
+            // const config = {
+            //     headers: { 'Content-Type': 'application/json' },
+            //     responseType: 'text'
+            // };
+
+            // axios
+			// .post('https://localhost:8443/api/sideprj/post', JSON.stringify(json), config)
+			// .then(function (response) {
+            //     alert(response.data);
+            // })
+        
+            // setError({ ...error, memTotalCapa: true });
+            // return;
+        //}
 
         // TODO: user_id (github) 연동 조사
         let json = new Map();
@@ -65,7 +77,7 @@ const ProjectCreate = () => {
 
         const config = {
             headers: { 'Content-Type': 'application/json' },
-            responseType: 'blob'
+            responseType: 'text'
         };
 
 
@@ -73,7 +85,7 @@ const ProjectCreate = () => {
         axios
             .post('https://localhost:8443/api/sideprj/post', JSON.stringify(json), config)
             .then(function (response) {
-                console.log(response);
+                alert(response.data);
                 window.location.href = `/#/projectDetail/1`
                 // window.location.href = `/#/studyDetail/${response.post_seq}`
             })
