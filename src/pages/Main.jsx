@@ -3,6 +3,8 @@ import { Container, Row, Col, Button, DropdownButton, Dropdown, InputGroup, Form
 import { BiSearch } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 import axios from 'axios';
+import STUDY_API from '../api/STUDY_API';
+import { SPACE_CODE, STATUS_CODE } from './study';
 
 const StudyCard = ({ key, title, space, content }) => {
     const handleClick = () => {
@@ -37,6 +39,7 @@ const Main = () => {
 
     const [offset, setOffset] = useState(0);
     const [active, setActive] = useState(1);
+    const [pages, setPages] = useState([]);
 
     const [region, setRegion] = useState('지역');
     const [state, setState] = useState('상태');
@@ -45,14 +48,28 @@ const Main = () => {
     // TODO
     // 1. GetList 이후 pages 설정하는 로직 필요함
     // 2. page num < 1 일 때 1으로 셋팅하는 로직 필요, page num > page num 일 때 page num 으로 셋팅하는 로직 필요 (예외처리)
-    let pages = [];
-    for (let number = 1; number <= 5; number++) {
-        pages.push(
-            <Pagination.Item key={number} active={number === active} onClick={() => setActive(number)}>
-                {number}
-            </Pagination.Item>,
-        );
+    // let pages = [];
+    // for (let number = 1; number <= 5; number++) {
+    //     pages.push(
+    //         <Pagination.Item key={number} active={number === active} onClick={() => setActive(number)}>
+    //             {number}
+    //         </Pagination.Item>,
+    //     );
+    // }
+    const setPagination = pageNum => {
+        let arr = [];
+
+        for (let number = 1; number <= pageNum; number++) {
+            arr.push(
+                <Pagination.Item key={number} active={number === active} onClick={() => setActive(number)}>
+                    {number}
+                </Pagination.Item>,
+            );
+
+            setPages(arr)
+        }
     }
+
 
     const onSearch = evt => {
         if (evt.type === 'click' || evt.type === 'keydown' && evt.keyCode === 13) {
@@ -84,13 +101,19 @@ const Main = () => {
     const onChange = evt => {
         switch (evt.target.id) {
             case 'region':
-
-                setRegion(evt.target.value);
+                let _region = '';
+                Object.keys(SPACE_CODE).forEach(key => {
+                    if (SPACE_CODE[key] === evt.target.value) _region = key
+                });
+                setRegion(_region);
                 setActive(1);
                 break;
             case 'state':
-
-                setState(evt.target.value);
+                let _state = '';
+                Object.keys(STATUS_CODE).forEach(key => {
+                    if (STATUS_CODE[key] === evt.target.value) _state = key
+                });
+                setState(_state);
                 setActive(1);
                 break;
             default:
@@ -99,14 +122,37 @@ const Main = () => {
     }
 
     const getStudyList = () => {
-        let url = `/api/study/post?limit=20&offset=${active}`;
+        // let url = `/api/study/post?limit=20&offset=${active}`;
+        let url = `?limit=20&offset=${active}`;
 
-        if (searchVal !== '') url += `?title=${searchVal}`;
-        if (state !== '상태') url += `?status_seq=${state}`
-        if (region !== '지역') url += `?place_seq=${region}`
+        if (searchVal !== '') url += `&title=${searchVal}`;
+        if (state !== '상태') url += `&statusSeq=${state}`
+        if (region !== '지역') url += `&placeSeq=${region}`
+
 
         // console.log(url);
+        // return;
         // TODO: API 연동 
+        STUDY_API.getStudy(url)
+            .then(response => {
+
+
+                // console.log(response.data.response)
+                let arr = response.data.response.posts.map(item => {
+                    return {
+                        key: item.seq,
+                        title: item.title,
+                        space: SPACE_CODE[item.placeSeq.value],
+                        content: item.content
+                    }
+                });
+                // console.log(arr)
+                setStudyList(arr);
+                setPagination(arr.length)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         return;
         axios.get(url)
             .then(function (response) {
@@ -129,7 +175,7 @@ const Main = () => {
 
     const onClickCreateStudy = () => {
         // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
-        if (!window.localStorage.getItem('userId')) {
+        if (!window.sessionStorage.getItem('id')) {
             window.location.href = '/#/login';
             return;
         }
@@ -146,57 +192,58 @@ const Main = () => {
 
     useEffect(() => {
         if (tab === 'study') {
+            getStudyList();
             // sample data
-            setStudyList([
-                {
-                    key: 1,
-                    title: '리액트 스터디 모집해요!',
-                    space: '서울',
-                    content: '토요일 저녁 강남역 부근에서 리액트 스터디하실 분 구해요~'
-                },
-                {
-                    key: 2,
-                    title: '자바 스터디 모집해요!',
-                    space: '경기/판교',
-                    content: '평일 저녁 판교역에서 자바 스터디하실 분~!'
-                },
-                {
-                    key: 3,
-                    title: '파이썬 스터디 합시다!',
-                    space: '경기/수원',
-                    content: '주말 오전 수원역에서 파이썬 스터디 하실래요?'
-                },
-                {
-                    key: 4,
-                    title: '알고리즘 스터디 하자!',
-                    space: '서울/여의도',
-                    content: '평일 저녁 여의도 근처에서 알고리즘 스터디 하자.'
-                },
-                {
-                    key: 5,
-                    title: '리액트 스터디 모집해요!',
-                    space: '서울',
-                    content: '토요일 저녁 강남역 부근에서 리액트 스터디하실 분 구해요~'
-                },
-                {
-                    key: 6,
-                    title: '자바 스터디 모집해요!',
-                    space: '경기/판교',
-                    content: '평일 저녁 판교역에서 자바 스터디하실 분~!'
-                },
-                {
-                    key: 7,
-                    title: '파이썬 스터디 합시다!',
-                    space: '경기/수원',
-                    content: '주말 오전 수원역에서 파이썬 스터디 하실래요?'
-                },
-                {
-                    key: 8,
-                    title: '알고리즘 스터디 하자!',
-                    space: '서울/여의도',
-                    content: '평일 저녁 여의도 근처에서 알고리즘 스터디 하자.'
-                }
-            ]);
+            // setStudyList([
+            //     {
+            //         key: 1,
+            //         title: '리액트 스터디 모집해요!',
+            //         space: '서울',
+            //         content: '토요일 저녁 강남역 부근에서 리액트 스터디하실 분 구해요~'
+            //     },
+            //     {
+            //         key: 2,
+            //         title: '자바 스터디 모집해요!',
+            //         space: '경기/판교',
+            //         content: '평일 저녁 판교역에서 자바 스터디하실 분~!'
+            //     },
+            //     {
+            //         key: 3,
+            //         title: '파이썬 스터디 합시다!',
+            //         space: '경기/수원',
+            //         content: '주말 오전 수원역에서 파이썬 스터디 하실래요?'
+            //     },
+            //     {
+            //         key: 4,
+            //         title: '알고리즘 스터디 하자!',
+            //         space: '서울/여의도',
+            //         content: '평일 저녁 여의도 근처에서 알고리즘 스터디 하자.'
+            //     },
+            //     {
+            //         key: 5,
+            //         title: '리액트 스터디 모집해요!',
+            //         space: '서울',
+            //         content: '토요일 저녁 강남역 부근에서 리액트 스터디하실 분 구해요~'
+            //     },
+            //     {
+            //         key: 6,
+            //         title: '자바 스터디 모집해요!',
+            //         space: '경기/판교',
+            //         content: '평일 저녁 판교역에서 자바 스터디하실 분~!'
+            //     },
+            //     {
+            //         key: 7,
+            //         title: '파이썬 스터디 합시다!',
+            //         space: '경기/수원',
+            //         content: '주말 오전 수원역에서 파이썬 스터디 하실래요?'
+            //     },
+            //     {
+            //         key: 8,
+            //         title: '알고리즘 스터디 하자!',
+            //         space: '서울/여의도',
+            //         content: '평일 저녁 여의도 근처에서 알고리즘 스터디 하자.'
+            //     }
+            // ]);
 
             // TODO: study get 서비스 연동
             // offset, limit 추가 
