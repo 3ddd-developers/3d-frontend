@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { CgAsterisk } from "react-icons/cg";
-import axios from 'axios';
 import classNames from 'classnames';
+import { SPACE_CODE } from './const';
+import STUDY_API from '../../api/STUDY_API';
 
 
 const StudyCreate = () => {
     const [title, setTitle] = useState('');
     const [subject, setSubject] = useState('');
-    const [region, setRegion] = useState('서울');
+    const [region, setRegion] = useState('SP10');
     const [number, setNumber] = useState(1);
     const [content, setContent] = useState('');
 
     const [error, setError] = useState({ title: false, content: false, number: false });
+    const [errorMsg, setErrorMsg] = useState('');
 
-    const handleSubmit = () => {
+    const handleSubmit = evt => {
+        evt.preventDefault();
+        evt.stopPropagation();
         // TODO
         // Create API 연동 
         if (title.length > 100) {
@@ -35,29 +39,39 @@ const StudyCreate = () => {
             return;
         }
 
-        return;
-
         // TODO: user_id (github) 연동 조사
         let json = {
-            user_id: 123,
+            userId: window.sessionStorage.getItem('id'),
             title: title,
             content: content,
-            member_number: number,
-            place_seq: region,
-            subject_seq: subject
+            memberNumber: number,
+            placeSeq: region,
+            subjectSeq: subject
         };
 
-        console.log(json);
-        return;
-        axios.post('/api/study/post', json)
-            .then(function (response) {
+        // console.log(json);
+        // return;
+
+
+        STUDY_API.createStudy(json)
+            .then(response => {
                 console.log(response);
                 // TODO: 생성 성공 시 해당 스터디 디테일 페이지로 라우팅
-                window.location.href = `/#/studyDetail/${response.post_seq}`
+                window.location.href = `/#/studyDetail/${response.data.response.seq}`
             })
-            .catch(function (error) {
-                console.log(error);
-            });
+            .catch(err => {
+                console.log(err);
+                setErrorMsg(err);
+            })
+        // axios.post('/api/study/post', json)
+        //     .then(function (response) {
+        //         console.log(response);
+        //         // TODO: 생성 성공 시 해당 스터디 디테일 페이지로 라우팅
+        //         window.location.href = `/#/studyDetail/${response.post_seq}`
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
     }
 
     const onClickCancel = () => {
@@ -73,7 +87,11 @@ const StudyCreate = () => {
                 setSubject(evt.target.value);
                 break;
             case 'region':
-                setRegion(evt.target.value);
+                let target = '';
+                Object.keys(SPACE_CODE).forEach(key => {
+                    if (SPACE_CODE[key] === evt.target.value) target = key
+                });
+                setRegion(target);
                 break;
             case 'number':
                 setNumber(evt.target.value);
@@ -90,7 +108,8 @@ const StudyCreate = () => {
         setError({ ...error, [evt.target.id]: false });
     }
 
-    const regions = ['서울/강남', '서울/건대', '서울/신촌홍대', '서울/여의도', '경기/판교', '경기/수원', '온라인'];
+    // const regions = ['서울/강남', '서울/건대', '서울/신촌홍대', '서울/여의도', '경기/판교', '경기/수원', '온라인'];
+    const regions = Object.values(SPACE_CODE);
 
     return (
         <>
@@ -140,6 +159,9 @@ const StudyCreate = () => {
                         최대 500자 까지 입력할 수 있습니다.
   </Form.Text>
                 </Form.Group>
+                {errorMsg !== '' && <Form.Group>
+                    <Form.Text className='form-text-error'>{errorMsg}</Form.Text>
+                </Form.Group>}
                 <Row style={{ justifyContent: 'center', marginTop: '60px' }}>
                     <Button type="submit" className="form-button" style={{ backgroundColor: '#80AAA6', borderColor: '#80AAA6' }}>
                         생성

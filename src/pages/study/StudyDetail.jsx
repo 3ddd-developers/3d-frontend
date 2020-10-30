@@ -2,7 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import classNames from 'classnames';
+import STUDY_API from '../../api/STUDY_API';
+import { STATUS_CODE, SPACE_CODE } from './const.js';
 
+const formatDate = format => {
+    let year = format.getFullYear();
+
+    let month = format.getMonth() + 1;
+    if (month < 10) month = '0' + month;
+
+    let date = format.getDate();
+    if (date < 10) date = '0' + date;
+
+    let hour = format.getHours();
+    if (hour < 10) hour = '0' + hour;
+
+    let min = format.getMinutes();
+    if (min < 10) min = '0' + min;
+
+    let sec = format.getSeconds();
+    if (sec < 10) sec = '0' + sec;
+
+    return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
+}
 
 const StudyDetail = props => {
 
@@ -11,21 +33,22 @@ const StudyDetail = props => {
     const [error, setError] = useState(false);
 
     // 제목, 상태, 주제, 지역, 모집인원, 내용
-    const [title, setTitle] = useState('리액트 스터디 구해요!');
-    const [writer, setWriter] = useState('미리미리');
-    const [created, setCreated] = useState('2020/10/25');
-    const [status, setStatus] = useState('모집중');
-    const [subject, setSubject] = useState('리액트');
-    const [region, setRegion] = useState('경기/판교');
-    const [number, setNumber] = useState(5);
-    const [content, setContent] = useState('평일에 리액트 스터디 하실분 구해요!');
+    const [title, setTitle] = useState('');
+    const [writer, setWriter] = useState('');
+    const [writerId, setWriterId] = useState('');
+    const [created, setCreated] = useState('');
+    const [status, setStatus] = useState('');
+    const [subject, setSubject] = useState('');
+    const [region, setRegion] = useState('');
+    const [number, setNumber] = useState(0);
+    const [content, setContent] = useState('');
 
     const [helpMsg, setHelpMsg] = useState('최대 500자 까지 입력할 수 있습니다.');
 
     const handleClose = () => setShow(false);
     const handleShow = () => {
         // 로그인 되어 있지 않으면 로그인 페이지로 라우팅
-        if (!window.localStorage.getItem('userId')) window.location.href = '/#/login'
+        if (!window.sessionStorage.getItem('id')) window.location.href = '/#/login'
 
         setShow(true);
     }
@@ -45,21 +68,22 @@ const StudyDetail = props => {
         if (error) return;
 
         // TODO API 연동
-        return;
+
         let json = {
-            post_seq: props.match.params.id,
-            apply_userId: window.localStorage.getItem('userId'),
+            userId: window.sessionStorage.getItem('id'),
             content: applyContent
         };
 
-        axios.post(`/api/study/apply/${props.match.params.id}`, json)
-            .then(function (response) {
+        STUDY_API.postApply(props.match.params.id, json)
+            .then(response => {
                 // console.log(response);
+                handleClose();
                 window.location.href = '/#/mypage';
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(err => {
+                console.log(err)
             });
+
     }
 
     const onFocus = () => setError(false);
@@ -75,6 +99,22 @@ const StudyDetail = props => {
 
     useEffect(() => {
         // console.log(props.match.params.id);
+        STUDY_API.getStudy(props.match.params.id)
+            .then(response => {
+                // console.log(response)
+                setTitle(response.data.response.post.title);
+                setWriter(response.data.response.post.writer.name);
+                setWriterId(response.data.response.post.writer.userId.value);
+                setCreated(formatDate(new Date(response.data.response.post.createdAt)));
+                setStatus(STATUS_CODE[response.data.response.post.statusSeq.value]);
+                setSubject(response.data.response.post.subjectSeq);
+                setRegion(SPACE_CODE[response.data.response.post.placeSeq.value]);
+                setNumber(response.data.response.post.memberNumber);
+                setContent(response.data.response.post.content);
+            })
+            .catch(err => {
+                console.log(err)
+            })
         return;
 
         axios.get(`/api/study/post/${props.match.params.id}`)
@@ -96,66 +136,64 @@ const StudyDetail = props => {
 
 
     }, []);
+
     return (
         <>
             <Row style={{ justifyContent: 'center' }}>
                 <h2 className="form-title">스터디 조회</h2>
             </Row>
             <hr className="form-hr" />
-            <Form style={{ width: '500px', margin: 'auto' }}>
+            <Form className='study-detail' style={{ width: '500px', margin: 'auto' }}>
                 <Form.Group controlId="title">
                     <Form.Label className="form-label">제목</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue={title} />
+                    <span>{title}</span>
                 </Form.Group>
                 <Row>
                     <Col>
                         <Form.Group controlId="writer">
                             <Form.Label className="form-label">작성자</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue={writer} >
-                            </Form.Control>
+                            <span>{writer}</span>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="created">
                             <Form.Label className="form-label">작성일</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue={created} >
-                            </Form.Control>
+                            <span>{created}</span>
                         </Form.Group>
                     </Col>
                 </Row>
                 <Form.Group controlId="status">
                     <Form.Label className="form-label">상태</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue={status} />
+                    <span>{status}</span>
                 </Form.Group>
                 <Form.Group controlId="subject">
                     <Form.Label className="form-label">주제</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue={subject} />
+                    <span>{subject}</span>
                 </Form.Group>
                 <Row>
                     <Col>
                         <Form.Group controlId="region">
                             <Form.Label className="form-label">지역</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue={region} >
-                            </Form.Control>
+                            <span>{region}</span>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="number">
                             <Form.Label className="form-label">모집인원</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue={number} >
-                            </Form.Control>
+                            <span>{number}</span>
                         </Form.Group>
                     </Col>
                 </Row>
 
                 <Form.Group controlId="content">
                     <Form.Label className="form-label">내용</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue={content} />
-
+                    <span>{content}</span>
                 </Form.Group>
                 <Row style={{ justifyContent: 'center', marginTop: '60px' }}>
-                    {status === '모집중' && <Button onClick={handleShow} className="form-button" style={{ backgroundColor: '#80AAA6', borderColor: '#80AAA6' }}>
+                    {window.sessionStorage.getItem('id') ? window.sessionStorage.getItem('id') != writerId && status === '모집중' && <Button onClick={handleShow} className="form-button" style={{ backgroundColor: '#80AAA6', borderColor: '#80AAA6' }}>
                         지원하기
+  </Button> : status === '모집중' && <Button onClick={handleShow} className="form-button" style={{ backgroundColor: '#80AAA6', borderColor: '#80AAA6' }}>
+                            지원하기
   </Button>}
                     <Button onClick={goMain} className="form-button" style={{ backgroundColor: '#D7CDC2', borderColor: '#D7CDC2', marginLeft: '10px' }}>
                         메인으로
